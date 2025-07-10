@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Entre em contato com o techHUB - Solicite orçamentos, tire dúvidas e transforme suas ideias em realidade">
+    <title>Contato - techHUB</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <!-- Logo -->
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-microchip"></i>
+                        <div class="logo-pulse"></div>
+                    </div>
+                    <span class="logo-text">
+                        <span class="logo-tech">tech</span><span class="logo-hub">HUB</span>
+                    </span>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Início</a>
+                    <a href="produtos.html" class="nav-link">Produtos</a>
+                    <a href="servicos.html" class="nav-link">Serviços</a>
+                    <a href="sobre.html" class="nav-link">Sobre</a>
+                    <a href="contato.html" class="nav-link active">Contato</a>
+                </div>
+
+                <!-- Right Section -->
+                <div class="nav-right">
+                    <!-- Contact Info -->
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>(11) 99999-9999</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>contato@techhub.com</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Auth Section -->
+                    <div class="auth-section">
+                        <button class="login-btn" onclick="openLoginModal()">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Entrar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars" id="mobileMenuIcon"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="mobile-nav hidden" id="mobileNav">
+                <a href="index.html" class="mobile-nav-link">Início</a>
+                <a href="produtos.html" class="mobile-nav-link">Produtos</a>
+                <a href="servicos.html" class="mobile-nav-link">Serviços</a>
+                <a href="sobre.html" class="mobile-nav-link">Sobre</a>
+                <a href="contato.html" class="mobile-nav-link">Contato</a>
+                
+                <div class="mobile-auth">
+                    <button class="mobile-login-btn" onclick="openLoginModal()">Entrar</button>
+                    <div class="mobile-contact">
+                        <div class="mobile-contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>(11) 99999-9999</span>
+                        </div>
+                        <div class="mobile-contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>contato@techhub.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="page-hero-bg"></div>
+        <div class="container">
+            <div class="page-hero-content">
+                <h1>Entre em <span class="gradient-text">Contato</span></h1>
+                <p>Estamos prontos para transformar suas ideias em soluções tecnológicas inovadoras. Vamos conversar sobre seu próximo projeto!</p>
+                <div class="breadcrumb">
+                    <a href="index.html">Início</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Contato</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Info Cards -->
+    <section class="contact-info-section">
+        <div class="container">
+            <div class="contact-info-grid" id="contactInfoGrid">
+                <!-- Contact info cards will be populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form & Map -->
+    <section class="contact-form-section">
+        <div class="container">
+            <div class="contact-content">
+                <!-- Contact Form -->
+                <div class="contact-form-container">
+                    <div class="form-header">
+                        <i class="fas fa-microchip"></i>
+                        <h2>Solicitar Orçamento</h2>
+                    </div>
+
+                    <form class="contact-form" id="contactForm" onsubmit="handleContactForm(event)">
+                        <!-- Account Type -->
+                        <div class="form-group">
+                            <label>Tipo de Conta</label>
+                            <div class="account-type-selector">
+                                <label class="account-type-option active">
+                                    <input type="radio" name="accountType" value="individual" checked>
+                                    <i class="fas fa-user"></i>
+                                    <span>Pessoa Física</span>
+                                </label>
+                                <label class="account-type-option">
+                                    <input type="radio" name="accountType" value="company">
+                                    <i class="fas fa-building"></i>
+                                    <span>Empresa</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nome <span id="nameLabel">Completo</span></label>
+                                <input type="text" name="name" placeholder="Seu nome" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" placeholder="seu@email.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group company-field hidden">
+                            <label>Nome da Empresa</label>
+                            <input type="text" name="company" placeholder="Nome da sua empresa">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Telefone</label>
+                                <input type="tel" name="phone" placeholder="(11) 99999-9999">
+                            </div>
+                            <div class="form-group">
+                                <label>Serviço de Interesse</label>
+                                <select name="subject" required>
+                                    <option value="">Selecione um serviço</option>
+                                    <option value="Desenvolvimento de IA">Desenvolvimento de IA</option>
+                                    <option value="Aplicações Web">Aplicações Web</option>
+                                    <option value="Apps Mobile">Apps Mobile</option>
+                                    <option value="Cybersecurity">Cybersecurity</option>
+                                    <option value="UX/UI Design">UX/UI Design</option>
+                                    <option value="DevOps & Cloud">DevOps & Cloud</option>
+                                    <option value="Consultoria Tech">Consultoria Tech</option>
+                                    <option value="Outro">Outro</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mensagem</label>
+                            <textarea name="message" rows="6" placeholder="Descreva seu projeto ou necessidade..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="form-submit">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Enviar Mensagem</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Map & Additional Info -->
+                <div class="contact-sidebar">
+                    <!-- Map -->
+                    <div class="contact-map">
+                        <div class="map-placeholder">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <h3>Nossa Localização</h3>
+                            <p>Tech Park, 2000</p>
+                            <p>São Paulo, SP - 01234-567</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ -->
+                    <div class="contact-faq">
+                        <h3>
+                            <i class="fas fa-comments"></i>
+                            Perguntas Frequentes
+                        </h3>
+                        <div class="faq-list" id="faqList">
+                            <!-- FAQ items will be populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-main">
+            <div class="container">
+                <div class="footer-grid">
+                    <!-- Company Info -->
+                    <div class="footer-section">
+                        <div class="footer-logo">
+                            <div class="footer-logo-icon">
+                                <i class="fas fa-microchip"></i>
+                                <div class="footer-logo-pulse"></div>
+                            </div>
+                            <span class="footer-logo-text">
+                                <span class="footer-logo-tech">tech</span><span class="footer-logo-hub">HUB</span>
+                            </span>
+                        </div>
+                        <p class="footer-description">
+                            Conectando o presente ao futuro através de tecnologias inovadoras. 
+                            Sua plataforma completa para soluções digitais de vanguarda.
+                        </p>
+                        <div class="footer-social">
+                            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="footer-section">
+                        <h3 class="footer-title">Links Rápidos</h3>
+                        <ul class="footer-links">
+                            <li><a href="index.html">Início</a></li>
+                            <li><a href="produtos.html">Produtos</a></li>
+                            <li><a href="servicos.html">Serviços</a></li>
+                            <li><a href="sobre.html">Sobre</a></li>
+                            <li><a href="contato.html">Contato</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Technologies -->
+                    <div class="footer-section">
+                        <h3 class="footer-title">Tecnologias</h3>
+                        <ul class="footer-links">
+                            <li><a href="produtos.html?category=ai">Inteligência Artificial</a></li>
+                            <li><a href="produtos.html?category=web">Desenvolvimento Web</a></li>
+                            <li><a href="produtos.html?category=mobile">Apps Mobile</a></li>
+                            <li><a href="produtos.html?category=security">Cybersecurity</a></li>
+                            <li><a href="servicos.html">DevOps & Cloud</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="footer-section">
+                        <h3 class="footer-title">Contato</h3>
+                        <div class="footer-contact">
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>(11) 99999-9999</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>contato@techhub.com</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Tech Park, 2000<br>São Paulo, SP</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="newsletter">
+                    <div class="newsletter-content">
+                        <h3 class="newsletter-title">Newsletter Tech</h3>
+                        <p class="newsletter-description">
+                            Receba as últimas novidades em tecnologia, IA e desenvolvimento diretamente no seu e-mail
+                        </p>
+                        <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+                            <input type="email" placeholder="dev@exemplo.com" class="newsletter-input" required>
+                            <button type="submit" class="newsletter-btn">
+                                <span>Assinar</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <div class="footer-copyright">
+                        © 2024 techHUB. Todos os direitos reservados.
+                    </div>
+                    <div class="footer-legal">
+                        <a href="#">Política de Privacidade</a>
+                        <a href="#">Termos de Uso</a>
+                        <a href="#">Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay hidden" id="loginModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Entrar no techHUB</h2>
+                <button class="modal-close" onclick="closeLoginModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="modal-form" id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Tipo de Conta</label>
+                    <div class="account-type-selector">
+                        <label class="account-type-option active">
+                            <input type="radio" name="accountType" value="individual" checked>
+                            <i class="fas fa-user"></i>
+                            <span>Pessoa Física</span>
+                        </label>
+                        <label class="account-type-option">
+                            <input type="radio" name="accountType" value="company">
+                            <i class="fas fa-building"></i>
+                            <span>Empresa</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="email" placeholder="seu@email.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Senha</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" placeholder="Sua senha" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox">
+                        <span>Lembrar-me</span>
+                    </label>
+                    <a href="#" class="forgot-password">Esqueceu a senha?</a>
+                </div>
+
+                <button type="submit" class="form-submit">Entrar</button>
+
+                <div class="form-switch">
+                    Não tem uma conta? 
+                    <button type="button" onclick="switchToRegister()">Cadastre-se</button>
+                </div>
+
+                <div class="demo-credentials">
+                    <div><strong>Demo Pessoa Física:</strong> admin@techhub.com / admin123</div>
+                    <div><strong>Demo Empresa:</strong> empresa@techhub.com / admin123</div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal-overlay hidden" id="registerModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Criar Conta no techHUB</h2>
+                <button class="modal-close" onclick="closeRegisterModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="modal-form" id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Tipo de Conta</label>
+                    <div class="account-type-selector">
+                        <label class="account-type-option active">
+                            <input type="radio" name="accountType" value="individual" checked>
+                            <i class="fas fa-user"></i>
+                            <span>Pessoa Física</span>
+                        </label>
+                        <label class="account-type-option">
+                            <input type="radio" name="accountType" value="company">
+                            <i class="fas fa-building"></i>
+                            <span>Empresa</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="name" placeholder="Seu nome completo" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="email" placeholder="seu@email.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Senha</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" placeholder="Mínimo 6 caracteres" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirmar Senha</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="confirmPassword" placeholder="Confirme sua senha" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" required>
+                        <span>Aceito os <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a></span>
+                    </label>
+                </div>
+
+                <button type="submit" class="form-submit">Criar Conta</button>
+
+                <div class="form-switch">
+                    Já tem uma conta? 
+                    <button type="button" onclick="switchToLogin()">Entrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script src="js/contact.js"></script>
+</body>
+</html>
