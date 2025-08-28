@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login para Empresas - Acesse sua conta techHUB e gerencie seus projetos e serviços.">
+    <title>Login Empresarial - techHUB</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"> <!-- Estilos globais -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"> <!-- Estilos específicos do login -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> {# Descomentado Font Awesome #}
+    <style>
+        /* Estilos básicos para mensagens flash */
+        .flash-message { padding: 10px; margin-bottom: 10px; border-radius: 5px; text-align: center; }
+        .flash-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .flash-danger { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6fb; }
+        .flash-info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .flash-warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+        
+        /* Estilos gerais para o body e container (para garantir que o conteúdo apareça centralizado e com um fundo) */
+        body { font-family: 'Inter', sans-serif; background-color: #f4f7f6; display: flex; flex-direction: column; min-height: 100vh; margin: 0; }
+        .login-page { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .login-container { background-color: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: 100%; max-width: 400px; box-sizing: border-box; text-align: center; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .input-group { display: flex; align-items: center; border: 1px solid #ddd; border-radius: 5px; padding: 8px; }
+        .input-group i { margin-right: 10px; color: #555; }
+        .input-group input { border: none; outline: none; flex-grow: 1; padding: 5px 0; }
+        .password-toggle { background: none; border: none; cursor: pointer; padding: 0 5px; }
+        .form-options { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.9em; }
+        .form-options a { color: #3498db; text-decoration: none; }
+        .form-submit { background-color: #3498db; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; width: 100%; transition: background-color 0.3s ease; }
+        .form-submit:hover { background-color: #2980b9; }
+        .form-switch { margin-top: 20px; font-size: 0.9em; }
+        .form-switch a { color: #3498db; text-decoration: none; font-weight: bold; }
+        .demo-credentials { margin-top: 20px; padding: 10px; background-color: #f0f0f0; border-radius: 5px; font-size: 0.85em; text-align: left; }
+    </style>
+</head>
+<body>
+    <!-- Header (mantido para consistência de navegação) -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <!-- Logo -->
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='img/federacao-SP-horizontal-B.png') }}" alt="Logo ASSESPRO-SP" class="logo-assespro">
+                </div>
+
+                 <!-- Right Section -->
+                <div class="nav-right">
+                    <!-- Botão de login removido, pois esta é a página de login -->
+                </div>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars" id="mobileMenuIcon"></i>
+                </button>
+            </div>
+            <div class="mobile-nav hidden" id="mobileNav">
+                <a href="{{ url_for('index') }}" class="mobile-nav-link">Início</a>
+                <a href="{{ url_for('servicos') }}" class="mobile-nav-link">Serviços</a>
+                <a href="{{ url_for('sobre') }}" class="mobile-nav-link">Sobre</a>
+                <a href="{{ url_for('contato') }}" class="mobile-nav-link">Serviço Personalizado</a>
+                <div class="mobile-auth">
+                    <!-- Botão de login removido -->
+                    <div class="mobile-contact">
+                        <div class="mobile-contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>(11) 99999-9999</span>
+                        </div>
+                        <div class="mobile-contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>contato@techhub.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="login-page">
+        <div class="login-container">
+            {# Adicionado: Mensagens Flash #}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="flash-messages">
+                        {% for category, message in messages %}
+                            <li class="flash-message flash-{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
+            <div class="login-header">
+                <i class="fas fa-building"></i>
+                <h2>Login Empresarial</h2>
+                <p>Acesse sua conta techHUB para gerenciar seus projetos e serviços.</p>
+            </div>
+            <form class="login-form" id="companyLoginForm" method="POST" action="{{ url_for('login') }}">
+                <div class="form-group">
+                    <label for="email">Email Corporativo</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" placeholder="seu@empresa.com" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="Sua senha" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox">
+                        <span>Lembrar-me</span>
+                    </label>
+                    <a href="{{ url_for('reset_password_request') }}">Esqueceu a senha?</a>
+                </div>
+                <button type="submit" class="form-submit">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Entrar</span>
+                </button>
+                <div class="form-switch">
+                    Não tem uma conta empresarial? 
+                    <a href="{{ url_for('register') }}">Cadastre-se aqui</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer (mantido para consistência) -->
+    <footer class="footer">
+        <div class="footer-main">
+            <div class="container">
+                <div class="footer-grid">
+                    <!-- Company Info -->
+                    <div class="footer-section">
+                        <div class="footer-logo">
+                            <img src="{{ url_for('static', filename='img/federacao-SP-horizontal-B.png') }}" alt="Logo ASSESPRO-SP" class="footer-logo-assespro">
+                        </div>
+
+                        <p class="footer-description">
+                            A Federação ASSESPRO-SP conecta, fortalece e representa empresas de tecnologia no estado de São Paulo, promovendo inovação, networking e oportunidades.
+                        </p>
+                        <div class="footer-social">
+                            <a href="https://www.facebook.com/AssesproSP/" class="social-link"><i class="fab fa-facebook"></i></a>
+                            <a href="https://x.com/AssesproSP" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/assesprosp/" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com/company/assesprosp/" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-section">
+                        <h3 class="footer-title">Links Rápidos</h3>
+                        <ul class="footer-links">
+                            <li><a href="{{ url_for('index') }}">Início</a></li>
+                            <li><a href="{{ url_for('servicos') }}">Serviços</a></li>
+                            <li><a href="{{ url_for('sobre') }}">Sobre</a></li>
+                            <li><a href="{{ url_for('contato') }}">Serviço Personalizado</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h3 class="footer-title">Tecnologias</h3>
+                        <ul class="footer-links">
+                            <li><a href="{{ url_for('servicos_por_categoria', category='IA & Machine Learning') }}">Inteligência Artificial</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='Desenvolvimento Web') }}">Desenvolvimento Web</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='Apps Mobile') }}">Apps Mobile</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='Cybersecurity') }}">Cybersecurity</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='DevOps & Cloud') }}">DevOps & Cloud</a></li>
+                        </ul>
+                    </div>
+
+                   <!-- Contact Info -->
+                    <div class="footer-section">
+                        <h3 class="footer-title">Contato</h3>
+                        <div class="footer-contact">
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>+55 11 3064-0003</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>assespro@assespro-sp.org.br</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Brooklin Novo<br>São Paulo/SP</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="newsletter">
+                    <div class="newsletter-content">
+                        <h3 class="newsletter-title">Newsletter Tech</h3>
+                        <p class="newsletter-description">
+                            Receba as últimas novidades em tecnologia, IA e desenvolvimento diretamente no seu e-mail
+                        </p>
+                        <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+                            <input type="email" placeholder="dev@exemplo.com" class="newsletter-input" required>
+                            <button type="submit" class="newsletter-btn">
+                                <span>Assinar</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <div class="footer-copyright">
+                        © 2025 ASSESPRO-SP. Todos os direitos reservados.
+                    </div>
+                    <div class="footer-legal">
+                        <a href="#">Política de Privacidade</a>
+                        <a href="#">Termos de Uso</a>
+                        <a href="#">Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Função para alternar a visibilidade da senha
+        function togglePassword(button) {
+            const passwordInput = button.previousElementSibling;
+            const icon = button.querySelector('i');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>

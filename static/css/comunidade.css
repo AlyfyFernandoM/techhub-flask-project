@@ -1,0 +1,198 @@
+.community-section {
+    padding: 60px 0;
+    background-color: #f0f2f5; /* Fundo suave para a seção */
+}
+
+.community-section .section-title {
+    font-size: 2.5em;
+    color: #0a192f;
+    text-align: center;
+    margin-bottom: 50px;
+    font-weight: 700;
+    position: relative;
+}
+
+.community-section .section-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -15px;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(to right, #007bff, #0056b3);
+    border-radius: 2px;
+}
+
+/* --- Barra de Pesquisa --- */
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    margin: 0px auto 40px auto; /* Centraliza a barra e adiciona margem inferior */
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: 10px 20px;
+    border: 1px solid #e0e6ed;
+}
+
+.search-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.search-input::placeholder {
+    color: #888;
+}
+
+.search-icon {
+    color: #007bff;
+    font-size: 1.2em;
+    margin-left: 10px;
+}
+
+/* --- Grid de Empresas --- */
+.companies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Colunas responsivas */
+    gap: 25px; /* Espaçamento entre os cartões */
+    margin-top: 30px;
+}
+
+/* --- Cartão da Empresa (Retângulo) --- */
+.company-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #e0e6ed;
+}
+
+.company-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* --- Foto de Perfil Redonda --- */
+.company-profile-pic {
+    width: 90px; /* Tamanho da imagem de perfil */
+    height: 90px;
+    border-radius: 50%; /* Torna a imagem redonda */
+    overflow: hidden; /* Garante que a imagem se ajuste ao círculo */
+    margin-bottom: 20px;
+    border: 3px solid #007bff; /* Borda colorida */
+    box-shadow: 0 0 0 5px rgba(0, 123, 255, 0.1); /* Sombra suave ao redor da borda */
+}
+
+.company-profile-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Garante que a imagem preencha o círculo sem distorcer */
+}
+
+/* --- Nome da Empresa --- */
+.company-name {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: #0a192f;
+    margin-bottom: 15px;
+}
+
+/* --- Link "Ver Perfil" --- */
+.company-link {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.company-link:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* --- Mensagem de Nenhuma Empresa --- */
+.no-companies {
+    text-align: center;
+    font-size: 1.2em;
+    color: #666;
+    margin-top: 50px;
+    grid-column: 1 / -1; /* Ocupa todas as colunas no grid */
+}
+
+/* --- Responsividade --- */
+@media (max-width: 768px) {
+    .community-section {
+        padding: 40px 0;
+    }
+
+    .community-section .section-title {
+        font-size: 2em;
+        margin-bottom: 40px;
+    }
+
+    .search-bar-container {
+        padding: 8px 15px;
+        margin-bottom: 30px;
+    }
+
+    .search-input {
+        font-size: 1em;
+    }
+
+    .companies-grid {
+        gap: 20px;
+    }
+
+    .company-card {
+        padding: 25px;
+    }
+
+    .company-profile-pic {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 15px;
+    }
+
+    .company-name {
+        font-size: 1.3em;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .community-section {
+        padding: 30px 0;
+    }
+
+    .community-section .section-title {
+        font-size: 1.8em;
+        margin-bottom: 30px;
+    }
+
+    .search-input {
+        padding: 8px;
+    }
+
+    .company-card {
+        padding: 20px;
+    }
+    .company-link {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+}

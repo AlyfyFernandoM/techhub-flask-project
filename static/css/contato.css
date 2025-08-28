@@ -1,0 +1,443 @@
+/* ====================================================== */
+/* SISTEMA DE VALIDAÇÃO UNIFICADO E CORRIGIDO (ESTILO BOOTSTRAP) */
+/* ====================================================== */
+
+/* 1. Esconde as mensagens de feedback (erro ou sucesso) por padrão. */
+.invalid-feedback,
+.valid-feedback {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+}
+
+.invalid-feedback {
+    color: #dc3545; /* Cor para feedback de erro */
+}
+
+.valid-feedback {
+    color: #28a745; /* Cor para feedback de sucesso */
+}
+
+/* 2. Regras para quando o formulário é validado (após a tentativa de envio com a classe .was-validated) */
+
+/* Mostra a mensagem de erro para o campo inválido */
+.was-validated .form-control:invalid ~ .invalid-feedback {
+    display: block;
+}
+
+/* Aplica a borda vermelha e o ícone de erro no campo inválido */
+.was-validated .form-control:invalid {
+    border-color: #dc3545;
+    padding-right: calc(1.5em + 0.75rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+/* Mostra a mensagem de sucesso para o campo válido */
+.was-validated .form-control:valid ~ .valid-feedback {
+    display: block;
+}
+
+/* Aplica a borda verde e o ícone de sucesso no campo válido */
+.was-validated .form-control:valid {
+    border-color: #28a745;
+    padding-right: calc(1.5em + 0.75rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='M2.3 6.73L.6 4.53c-.4-1.04.1-1.4 1.1-1.4 1.2 0 1.6.7 2.2 1.4L5.3 4.53c.6.6 1.1.2 1.1-.4V2.7c0-.2-.1-.4-.3-.4H4.5c-.2 0-.3.1-.3.3v.8l-.9-.9c-.1-.1-.3-.1-.4 0L2.3 6.73z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+/* Garante que o foco em campos inválidos ou válidos mantenha a sombra correta */
+.was-validated .form-control:invalid:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+}
+
+.was-validated .form-control:valid:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+}
+/* ====================================================== */
+/* FIM DO SISTEMA DE VALIDAÇÃO */
+/* ====================================================== */
+
+
+.contact-content-area {
+    padding: 60px 0; /* Espaçamento ao redor da área de conteúdo */
+    background-color: #f8f9fa; /* Fundo claro para a área de conteúdo */
+}
+
+.container.contact-grid { /* Especificidade para o container grid */
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* O formulário ocupa 2/3, a barra lateral 1/3 */
+    gap: 30px; /* Espaço entre as colunas */
+    align-items: flex-start; /* Alinha o conteúdo ao topo das colunas */
+}
+
+@media (max-width: 992px) { /* Para telas menores (tablets) */
+    .container.contact-grid {
+        grid-template-columns: 1fr; /* Layout de coluna única */
+    }
+}
+
+.contact-form-column {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.contact-sidebar-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Espaço entre as seções de informações de contato e FAQ na barra lateral */
+}
+
+/* --- Re-design da Seção do Formulário de Contato (contact-form-section) --- */
+
+.contact-form-section {
+    background-color: #ffffff;
+    padding: 40px; /* Aumentado um pouco o padding interno */
+    border-radius: 12px; /* Bordas mais arredondadas */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Sombra mais pronunciada e suave */
+    transition: all 0.3s ease; /* Adiciona transição para interações futuras */
+}
+
+/* Títulos dentro do formulário */
+.contact-form-section h2 {
+    font-size: 2.2em; /* Tamanho maior para os títulos */
+    color: #0a192f;
+    margin-bottom: 35px; /* Mais espaço abaixo dos títulos */
+    font-weight: 700;
+    text-align: left; /* Alinha o título à esquerda */
+    position: relative;
+    padding-bottom: 15px; /* Espaço para o underline */
+}
+
+.contact-form-section h2::after {
+    content: '';
+    position: absolute;
+    left: 0; /* Alinha o underline à esquerda */
+    bottom: 0;
+    width: 80px; /* Largura do underline */
+    height: 4px;
+    background: linear-gradient(to right, #007bff, #0056b3); /* Gradiente para o underline */
+    border-radius: 2px;
+}
+
+/* Grupo de Formulário (Label + Input) */
+.form-group {
+    margin-bottom: 25px; /* Aumentado o espaço entre os grupos de campos */
+}
+
+.form-group label {
+    display: block; /* Garante que o label ocupe sua própria linha */
+    font-size: 1.05em; /* Fonte um pouco maior para o label */
+    color: #333;
+    margin-bottom: 8px; /* Espaço entre o label e o input */
+    font-weight: 600; /* Mais negrito */
+}
+
+/* Campos de Input e Textarea */
+.form-control {
+    width: 100%;
+    padding: 14px 18px; /* Mais padding interno */
+    border: 1px solid #ced4da; /* Borda padrão */
+    border-radius: 8px; /* Bordas mais arredondadas para os campos */
+    font-size: 1em; /* Tamanho da fonte padrão */
+    color: #495057;
+    background-color: #fcfcfc; /* Um fundo levemente off-white */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; /* Garante que padding e borda não aumentem a largura total */
+}
+
+.form-control:focus {
+    border-color: #007bff; /* Borda azul ao focar */
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Sombra azul suave ao focar */
+    outline: none; /* Remove o contorno padrão do navegador */
+    background-color: #ffffff; /* Fundo branco ao focar */
+}
+
+
+/* Botão de Envio */
+.btn-primary {
+    display: inline-block;
+    width: auto; /* Permite que o botão se ajuste ao conteúdo */
+    padding: 15px 30px; /* Mais padding */
+    font-size: 1.1em; /* Fonte maior */
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(45deg, #007bff, #0056b3); /* Gradiente para o botão */
+    border: none;
+    border-radius: 8px; /* Bordas arredondadas */
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3); /* Sombra para o botão */
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #0056b3, #007bff); /* Inverte o gradiente ao passar o mouse */
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4); /* Sombra maior ao passar o mouse */
+    transform: translateY(-2px); /* Efeito de levantar */
+}
+
+.btn-primary:active {
+    transform: translateY(0); /* Efeito de "clique" */
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+}
+
+/* Flash Messages */
+.flash-messages {
+    margin-bottom: 30px; /* Espaço abaixo das mensagens flash */
+    padding: 0 15px; /* Padding para as mensagens flash */
+}
+
+.alert {
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
+    border-radius: 8px; /* Bordas arredondadas */
+    font-size: 1em;
+    line-height: 1.4;
+    font-weight: 500;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+.alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+/* --- Seção de Informações de Contato (populada por contact.js) --- */
+.contact-info-section {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    text-align: center; /* Centraliza o título */
+}
+
+.contact-info-section h2 {
+    font-size: 2em;
+    color: #0a192f;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.contact-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Grid responsivo para os cards */
+    gap: 15px; /* Espaço menor entre os cards */
+}
+
+.contact-info-card {
+    padding: 20px;
+    border-radius: 8px;
+    color: #fff;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.contact-info-icon {
+    font-size: 2.2em; /* Ícone um pouco menor */
+    margin-bottom: 15px;
+}
+
+.contact-info-title {
+    font-size: 1.2em; /* Título um pouco menor */
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.contact-info-details p {
+    font-size: 0.9em; /* Detalhes um pouco menor */
+    margin: 4px 0;
+    line-height: 1.4;
+    color: #eee; /* Cor mais clara para os detalhes */
+}
+
+/* Cores para contact-info-card (baseadas no seu JS) */
+.contact-info-card.blue { background-color: #007bff; }
+.contact-info-card.purple { background-color: #6f42c1; }
+.contact-info-card.emerald { background-color: #28a745; } /* Cor verde para 'emerald' */
+.contact-info-card.orange { background-color: #fd7e14; }
+
+/* --- Seção de FAQ (populada por contact.js) --- */
+.faq-section {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    text-align: center; /* Centraliza o título */
+}
+
+.faq-section h2 {
+    font-size: 2em; /* Título menor para a barra lateral */
+    color: #0a192f;
+    margin-bottom: 30px;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.faq-section h2::after {
+    content: '';
+    position: absolute;
+    left: 50%; /* Centraliza a linha inferior */
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 60px; /* Linha inferior menor */
+    height: 3px;
+    background-color: #007bff;
+    border-radius: 2px;
+}
+
+.faq-items {
+    text-align: left; /* Alinha as perguntas do FAQ à esquerda */
+}
+
+.faq-item {
+    background-color: #ffffff;
+    border: 1px solid #e0e6ed;
+    border-radius: 8px;
+    margin-bottom: 10px; /* Margem menor entre os itens */
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Sombra mais leve */
+    transition: all 0.2s ease;
+}
+
+.faq-item:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.faq-question {
+    width: 100%;
+    background-color: #f5f8fc; /* Fundo mais claro para a pergunta */
+    color: #0a192f;
+    padding: 15px 20px; /* Padding ajustado */
+    border: none;
+    text-align: left;
+    font-size: 1.1em; /* Tamanho da fonte ajustado */
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s ease;
+    border-radius: 8px 8px 0 0;
+}
+
+.faq-item.active .faq-question {
+    background-color: #eaf1f8; /* Fundo ativo */
+}
+
+.faq-question:hover {
+    background-color: #eaf1f8;
+}
+
+.faq-question h4 { /* Alvo para o h4 dentro do faq-question */
+    margin: 0;
+    font-size: 1em; /* Tamanho da fonte do h4 */
+    color: #0a192f;
+}
+
+.faq-question i { /* Alvo para o ícone */
+    font-size: 0.9em; /* Tamanho do ícone */
+    transition: transform 0.3s ease;
+    color: #007bff;
+}
+
+.faq-item.active .faq-question i {
+    transform: rotate(180deg); /* Rotação do ícone para o estado ativo */
+}
+
+.faq-answer {
+    padding: 0 20px;
+    background-color: #ffffff;
+    max-height: 0; /* Escondido por padrão */
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 500px; /* Aumentado para garantir que o conteúdo não seja cortado */
+    padding: 10px 20px 15px; /* Padding para o conteúdo expandido */
+    border-top: 1px solid #e0e6ed;
+}
+
+.faq-answer p {
+    font-size: 0.95em; /* Tamanho da fonte do conteúdo da resposta */
+    line-height: 1.5;
+    color: #555;
+    margin: 0;
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 768px) {
+    .contact-info-grid {
+        grid-template-columns: 1fr; /* Empilha os cards em telas pequenas */
+    }
+}
+
+@media (max-width: 576px) {
+    .contact-form-section {
+        padding: 25px; /* Reduzir padding em telas muito pequenas */
+    }
+
+    .contact-form-section h2 {
+        font-size: 1.8em;
+        margin-bottom: 25px;
+        padding-bottom: 10px;
+    }
+
+    .contact-form-section h2::after {
+        width: 60px;
+        height: 3px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        padding: 12px 15px;
+        font-size: 0.95em;
+    }
+
+    .btn-primary {
+        padding: 12px 25px;
+        font-size: 1em;
+        width: 100%; /* Botão em largura total em telas pequenas */
+    }
+}

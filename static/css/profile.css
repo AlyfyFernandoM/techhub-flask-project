@@ -1,0 +1,709 @@
+Sem problemas! Entendo que às vezes podem ocorrer dificuldades ao abrir arquivos.
+
+Vou te enviar o conteúdo do profile.css novamente. Basta copiar o código abaixo e colar no seu arquivo static/css/profile.css.
+
+profile.css (Conteúdo Completo)
+
+CSS
+
+/* Profile Section - NOVO LAYOUT */
+.profile-section {
+    padding: 2.5rem 0; /* Padding vertical para a seção inteira */
+    background-color: #f4f7f6; /* Cor de fundo suave */
+}
+
+.profile-container {
+    display: flex;
+    gap: 2.5rem; /* Espaçamento entre sidebar e detalhes */
+    background-color: #fff;
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    align-items: flex-start; /* Alinha o conteúdo ao topo */
+    margin-top: 0; /* Remove margem superior extra do container */
+}
+
+/* Profile Sidebar */
+.profile-sidebar {
+    flex: 0 0 280px; /* Largura fixa para a sidebar */
+    background-color: #f8f9fa; /* Fundo mais claro para a sidebar */
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #4a90e2; /* Cor de fundo para iniciais */
+    color: white;
+    font-size: 3.5rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 5px solid #667eea; /* Borda colorida */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.profile-avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-name {
+    font-size: 1.8rem;
+    color: #1a202c;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+.profile-email {
+    font-size: 1rem;
+    color: #667eea;
+    margin-bottom: 0.8rem;
+}
+.profile-company-name {
+    font-size: 1.1rem;
+    color: #4a5568;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+.profile-badge {
+    background-color: #3b82f6;
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.sidebar-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Espaçamento entre os botões */
+    width: 100%;
+    margin-top: 1.5rem;
+}
+.sidebar-buttons .cta-btn.full-width {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 0.8rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.sidebar-buttons .cta-btn.full-width:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Profile Details (Company Info) */
+.profile-details {
+    flex-grow: 1; /* Ocupa o espaço restante */
+    padding-left: 1.5rem; /* Espaçamento da sidebar */
+}
+
+.welcome-title {
+    font-size: 2.5rem;
+    color: #152443;
+    margin-bottom: 1rem;
+    font-weight: 800;
+    text-align: left;
+    word-wrap: break-word;
+    max-width: 100%;
+}
+.company-description {
+    font-size: 1.15rem;
+    color: #666;
+    margin-bottom: 2rem;
+    line-height: 1.7;
+    text-align: left;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid #e0e0e0;
+}
+.dashboard-header h3 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin: 0;
+    font-weight: 700;
+}
+.dashboard-header h3 i {
+    margin-right: 0.8rem;
+    color: #3b82f6;
+    font-size: 2rem;
+}
+
+.company-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Grid responsivo para info cards */
+    gap: 1.5rem; /* Espaçamento entre os cartões */
+    margin-top: 1.5rem;
+}
+
+.info-card {
+    background-color: #fefefe;
+    border-radius: 12px;
+    padding: 1.8rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid #e9ecef;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+.info-card h4 {
+    font-size: 1.1rem;
+    color: #667eea;
+    margin-bottom: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.info-card p {
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: 500;
+    margin: 0;
+    word-wrap: break-word; /* Garante que o texto quebre */
+}
+
+
+/* Seção "Meus Serviços/Projetos Publicados" (Mantida e Estilizada) */
+.section-title {
+    font-size: 2.2rem;
+    color: #1a202c;
+    margin-top: 3.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 1rem;
+    font-weight: 700;
+}
+
+.service-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+    padding: 0 1rem;
+    margin-top: 2rem;
+}
+
+.service-card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #f0f0f0;
+}
+.service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+.service-card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+.service-card-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.service-card-category {
+    font-size: 0.95rem;
+    color: #667eea;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.service-card-title {
+    font-size: 1.5rem;
+    color: #1a202c;
+    margin-bottom: 0.8rem;
+    font-weight: 800;
+    line-height: 1.3;
+}
+.service-card-description {
+    font-size: 0.95rem;
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+.service-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #718096;
+    margin-top: 1rem;
+    border-top: 1px solid #edf2f7;
+    padding-top: 0.8rem;
+    gap: 0.5rem;
+}
+.service-card-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.service-card-meta i {
+    color: #a0aec0;
+}
+.service-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+}
+.cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.9rem 1.8rem; /* Ajustado para ser mais consistente */
+    border-radius: 0.8rem; /* Ajustado para ser mais consistente */
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    border: none;
+    font-size: 1.05rem; /* Ajustado para ser mais consistente */
+    gap: 0.6rem; /* Ajustado para ser mais consistente */
+    flex-grow: 1;
+    max-width: 100%;
+}
+.cta-btn.primary {
+    background-color: #3b82f6;
+    color: white;
+}
+.cta-btn.primary:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+.cta-btn.secondary {
+    background-color: #e2e8f0;
+    color: #2d3748;
+}
+.cta-btn.secondary:hover {
+    background-color: #cbd5e0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(160, 174, 192, 0.3);
+}
+.cta-btn.tertiary { /* Mantido para o botão Editar Perfil */
+    background-color: #6c757d;
+    color: white;
+}
+.cta-btn.tertiary:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+.cta-btn.danger {
+    background-color: #ef4444;
+    color: white;
+}
+.cta-btn.danger:hover {
+    background-color: #dc2626;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+}
+
+/* Estilos para mensagem de serviços vazia */
+.empty-services-message {
+    font-size: 1.2rem;
+    color: #555;
+    margin: 3rem 0;
+    font-style: italic;
+    text-align: center;
+}
+.text-center { text-align: center; }
+.mt-4 { margin-top: 1rem; }
+.gradient-text {
+    background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+/* Modal de Edição de Perfil - Estilos Específicos */
+/* Estilos gerais para modais (se não existirem em styles.css) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Garante que o modal fique acima de outros elementos */
+}
+
+.modal {
+    background-color: white;
+    padding: 2.5rem; /* Padding ao redor do conteúdo do modal */
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    max-width: 600px; /* Largura máxima para o modal */
+    width: 90%;
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+    display: flex; /* Habilita flexbox para layout vertical */
+    flex-direction: column; /* Empilha cabeçalho e corpo verticalmente */
+    max-height: 90vh; /* Limita a altura do modal à 90% da altura da viewport */
+    box-sizing: border-box; /* Inclui padding na altura total */
+}
+
+/* NOVO: Estilos para o corpo rolavel do modal */
+.modal-body {
+    flex-grow: 1; /* Permite que o corpo ocupe o espaço restante */
+    overflow-y: auto; /* Habilita a rolagem vertical */
+    padding-right: 15px; /* Adiciona um padding para a barra de rolagem não sobrepor o conteúdo */
+    /* Se você tiver um rodapé no modal, pode precisar de padding-bottom aqui */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+    flex-shrink: 0; /* Garante que o cabeçalho não encolha */
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #1a202c;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.modal-close:hover {
+    color: #333;
+}
+
+.modal-form .form-group {
+    margin-bottom: 1.2rem;
+    text-align: left;
+}
+
+.modal-form label {
+    display: block;
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+/* Estilos para o subtítulo do modal (Alterar Senha) */
+.modal .modal-subtitle {
+    font-size: 1.4rem;
+    color: #2c3e50;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+    text-align: left; /* Garante alinhamento à esquerda */
+}
+
+/* Estilos para o upload da imagem de perfil no modal */
+.profile-avatar-upload-label {
+    display: block;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 1.5rem; /* Centraliza e adiciona margem */
+    cursor: pointer;
+    position: relative;
+    border: 3px solid #667eea; /* Borda colorida */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.profile-avatar-upload-label:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.profile-avatar-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.profile-avatar-upload-label .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.profile-avatar-upload-label:hover .overlay {
+    opacity: 1;
+}
+
+.profile-avatar-upload-label .overlay i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.profile-avatar-upload-label .overlay span {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Estilos para campos de input com ícones */
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input-group i {
+    position: absolute;
+    left: 12px;
+    color: #a0aec0;
+    font-size: 1.1rem;
+    z-index: 1; /* Garante que o ícone esteja acima do input */
+}
+
+.modal-form input[type="text"],
+.modal-form input[type="email"],
+.modal-form input[type="tel"],
+.modal-form input[type="password"],
+.modal-form textarea {
+    width: calc(100% - 24px); /* Ajusta para padding */
+    padding: 12px 12px 12px 40px; /* Padding à esquerda para o ícone */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal-form input:focus,
+.modal-form textarea:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    outline: none;
+}
+
+.modal-form textarea {
+    resize: vertical;
+    min-height: 80px;
+    padding: 12px 12px 12px 40px; /* Mantém o padding para o ícone */
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #a0aec0;
+    font-size: 1.1rem;
+    padding: 0;
+    margin: 0;
+    height: 100%; /* Garante que o botão ocupe a altura do input */
+    display: flex;
+    align-items: center;
+}
+.password-toggle:hover {
+    color: #667eea;
+}
+
+.modal-form .form-submit {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 2rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.modal-form .form-submit:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+}
+
+/* Responsividade Aprimorada para o Novo Layout */
+@media (max-width: 992px) {
+    .profile-container {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem;
+    }
+    .profile-sidebar {
+        flex: none; /* Remove largura fixa */
+        width: 100%; /* Ocupa largura total */
+        padding: 1.5rem;
+    }
+    .profile-details {
+        padding-left: 0;
+        width: 100%;
+    }
+    .welcome-title, .company-description, .dashboard-header h3 {
+        text-align: center;
+    }
+    .dashboard-header {
+        justify-content: center; /* Centraliza o cabeçalho do dashboard */
+    }
+    .company-info-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Ajusta min-width para telas menores */
+    }
+    .info-card {
+        padding: 1.5rem;
+    }
+    .modal {
+        max-width: 90%; /* Ajusta largura do modal em telas menores */
+        padding: 1.5rem; /* Ajusta padding do modal */
+    }
+    .modal-header {
+        margin-bottom: 1rem; /* Ajusta margem do header do modal */
+        padding-bottom: 0.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-container {
+        padding: 1.5rem;
+    }
+    .profile-sidebar {
+        padding: 1rem;
+    }
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        font-size: 2.5rem;
+        border-width: 3px;
+    }
+    .profile-name {
+        font-size: 1.5rem;
+    }
+    .profile-email, .profile-company-name {
+        font-size: 0.9rem;
+    }
+    .profile-badge {
+        padding: 0.3rem 0.8rem;
+        font-size: 0.75rem;
+    }
+    .sidebar-buttons .cta-btn.full-width {
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
+    }
+    .welcome-title {
+        font-size: 2rem;
+    }
+    .company-description {
+        font-size: 1rem;
+    }
+    .dashboard-header h3 {
+        font-size: 1.5rem;
+    }
+    .company-info-grid {
+        grid-template-columns: 1fr; /* Uma coluna em telas muito pequenas */
+    }
+    .info-card h4 {
+        font-size: 1rem;
+    }
+    .info-card p {
+        font-size: 1rem;
+    }
+    .section-title {
+        font-size: 1.8rem;
+    }
+    .service-card-title {
+        font-size: 1.25rem;
+    }
+    .service-card-description {
+        font-size: 0.85rem;
+    }
+    .service-card-actions {
+        flex-direction: column; /* Botões empilhados */
+        gap: 0.6rem;
+    }
+
+    /* Modal em telas muito pequenas */
+    .modal-content { /* Este estilo não é usado no HTML atual, mas mantido por segurança */
+        padding: 1.5rem;
+    }
+    .modal-header h2 {
+        font-size: 1.5rem;
+    }
+    .modal-form input, .modal-form textarea {
+        padding: 10px 10px 10px 35px; /* Ajusta padding para ícone */
+    }
+    .input-group i {
+        left: 8px; /* Ajusta posição do ícone */
+    }
+    .password-toggle {
+        right: 8px; /* Ajusta posição do toggle de senha */
+    }
+}

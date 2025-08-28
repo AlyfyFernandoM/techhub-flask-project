@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/css/comunidade.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">">
+    <script src="https://kit.fontawesome.com/c444158913.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <!-- Logo -->
+                <a href="{{ url_for('index') }}" class="logo">
+                    <div class="logo">
+                        <img src="{{ url_for('static', filename='img/federacao-SP-horizontal-B.png') }}" alt="Logo ASSESPRO-SP" class="logo-assespro">
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="nav-links">
+                    <a href="{{ url_for('servicos') }}" class="nav-link">Serviços Cadastrados</a>
+                    <a href="{{ url_for('empresas_cadastradas') }}" class="nav-link">Empresas Cadastradas</a>
+                    
+                    <!-- NOVO: Contêiner relativo para o popover de e-mail -->
+                    <div class="relative inline-block">
+                        <button id="openEmailModalBtn" class="nav-link">
+                            Enviar E-mail
+                        </button>
+                        
+                        <!-- NOVO: Popover de Envio de E-mail em Massa -->
+                        <div id="emailModal" class="absolute right-0 mt-2 w-72 bg-white rounded-lg popover-shadow hidden z-50 p-4">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="text-lg font-semibold text-gray-800">Enviar E-mail</h3>
+                                <button id="closeEmailModalBtn" class="text-gray-500 hover:text-gray-700 text-2xl leading-none">&times;</button>
+                            </div>
+                            <form id="bulkEmailForm" class="space-y-3">
+                                <div>
+                                    <label for="emailSubject" class="block text-xs font-medium text-gray-700 mb-1">Assunto:</label>
+                                    <input type="text" id="emailSubject" name="subject" class="mt-1 block w-full px-2 py-1 border border-gray-300 rounded-md shadow-sm text-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                                </div>
+                                <div>
+                                    <label for="emailBody" class="block text-xs font-medium text-gray-700 mb-1">Corpo:</label>
+                                    <textarea id="emailBody" name="body" rows="5" class="mt-1 block w-full px-2 py-1 border border-gray-300 rounded-md shadow-sm text-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required></textarea>
+                                </div>
+                                <div id="emailMessage" class="mt-3 text-center text-xs font-medium"></div>
+                                <div class="flex justify-end space-x-2 mt-4">
+                                    <button type="button" id="cancelEmailSendBtn" class="px-3 py-1 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 text-sm transition duration-300">Cancelar</button>
+                                    <button type="submit" id="sendEmailBtn" class="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm transition duration-300">
+                                        <span id="sendEmailBtnText">Enviar</span>
+                                        <span id="sendEmailBtnSpinner" class="hidden animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full ml-1"></span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <a href="{{ url_for('logout') }}" class="nav-link">
+                        Sair
+                    </a>
+                </div>
+
+                <!-- Right Section -->
+                <div class="nav-right">
+                   <div class="perfil" id="perfil">
+                        <a href="{{ url_for('client_profile') }}"><img src="../static/img/user (2).png" alt="icone-perfil"></a>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars" id="mobileMenuIcon"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="mobile-nav hidden" id="mobileNav">
+                <a href="{{ url_for('servicos') }}" class="mobile-nav-link">Serviços Cadastrados</a>
+                <a href="{{ url_for('empresas_cadastradas') }}" class="mobile-nav-link">Empresas Cadastradas</a>
+
+                <!-- Mobile Auth Section -->
+                <div class="mobile-auth" id="mobileAuth">
+                    {% if empresa %}
+                        <a href="{{ url_for('client_profile') }}" class="mobile-nav-link">Meu Perfil</a>
+                        <a href="{{ url_for('logout') }}" class="mobile-nav-link btn-logout">Sair</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="mobile-nav-link">Entrar</a>
+                        <a href="{{ url_for('register') }}" class="mobile-nav-link">Cadastre-se</a>
+                    {% endif %}
+                    <div class="mobile-contact">
+                        <div class="mobile-contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>(11) 99999-9999</span>
+                        </div>
+                        <div class="mobile-contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>contato@techhub.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="main-content">
+        <section class="page-hero">
+            <div class="page-hero-bg"></div>
+            <div class="container">
+                <div class="page-hero-content">
+                    <h1><span class="gradient-text">Gerenciar Empresas</span></h1>
+                    <p>Gerencie as empresas cadastradas.</p>
+                </div>
+            </div>
+        </section>
+        <section class="community-section">
+        <div class="container">
+            <h2 class="section-title">Empresas Cadastradas</h2>
+
+            <div class="search-bar-container">
+                <input type="text" id="companySearch" class="search-input" placeholder="Pesquisar empresas por nome...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+
+            <div class="companies-grid" id="companiesGrid">
+                {# Loop para exibir as empresas #}
+                {% if empresas %}
+                    {% for empresa in empresas %}
+                    <div class="company-card">
+                        <div class="company-profile-pic">
+                            <img src="{{ empresa.imagem_perfil_url if empresa.imagem_perfil_url else url_for('static', filename='img/user (2).png') }}" alt="Foto de Perfil de {{ empresa.nome_empresa }}">
+                        </div>
+                        <h3 class="company-name">{{ empresa.nome_empresa }}</h3>
+                        {# Você pode adicionar mais informações aqui se tiver no objeto empresa #}
+                        {# <p class="company-description">{{ empresa.descricao }}</p> #}
+                        <a href="{{ url_for('company_profile_admin', company_id=empresa.id) }}" class="company-link">Ver Perfil</a>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="no-companies">Nenhuma empresa cadastrada no momento.</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-main">
+            <div class="container">
+                <div class="footer-grid">
+                    <!-- Company Info -->
+                    <div class="footer-section">
+                        <div class="footer-logo">
+                            <img src="{{ url_for('static', filename='img/federacao-SP-horizontal-B.png') }}" alt="Logo ASSESPRO-SP" class="footer-logo-assespro">
+                        </div>
+
+                        <p class="footer-description">
+                            A Federação ASSESPRO-SP conecta, fortalece e representa empresas de tecnologia no estado de São Paulo, promovendo inovação, networking e oportunidades.
+                        </p>
+                        <div class="footer-social">
+                            <a href="https://www.facebook.com/AssesproSP/" class="social-link"><i class="fab fa-facebook"></i></a>
+                            <a href="https://x.com/AssesproSP" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/assesprosp/" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com/company/assesprosp/" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="footer-section">
+                        <h3 class="footer-title">Links Rápidos</h3>
+                        <ul class="footer-links">
+                            <li><a href="{{ url_for('index') }}">Início</a></li>
+                            <li><a href="{{ url_for('servicos') }}">Serviços</a></li>
+                            <li><a href="{{ url_for('sobre') }}">Sobre</a></li>
+                            <li><a href="{{ url_for('contato') }}">Serviço Personalizado</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h3 class="footer-title">Tecnologias</h3>
+                        <ul class="footer-links">
+                            <li><a href="{{ url_for('servicos_por_categoria', category='IA & Machine Learning') }}">Inteligência Artificial</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='Desenvolvimento Web') }}">Desenvolvimento Web</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='Apps Mobile') }}">Apps Mobile</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='Cybersecurity') }}">Cybersecurity</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='Design & UX') }}">Design & UX</a></li> 
+                            <li><a href="{{ url_for('servicos_por_categoria', category='DevOps & Cloud') }}">DevOps & Cloud</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="footer-section">
+                        <h3 class="footer-title">Contato</h3>
+                        <div class="footer-contact">
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>+55 11 3064-0003</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>assespro@assespro-sp.org.br</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Brooklin Novo<br>São Paulo/SP</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="newsletter">
+                    <div class="newsletter-content">
+                        <h3 class="newsletter-title">Newsletter Tech</h3>
+                        <p class="newsletter-description">
+                            Receba as últimas novidades em tecnologia, IA e desenvolvimento diretamente no seu e-mail
+                        </p>
+                        <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+                            <input type="email" placeholder="dev@exemplo.com" class="newsletter-input" required>
+                            <button type="submit" class="newsletter-btn">
+                                <span>Assinar</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <div class="footer-copyright">
+                        © 2025 ASSESPRO-SP. Todos os direitos reservados.
+                    </div>
+                    <div class="footer-legal">
+                        <a href="#">Política de Privacidade</a>
+                        <a href="#">Termos de Uso</a>
+                        <a href="#">Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="../static/js/community.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/commom.js') }}"></script>
+</body>
+</html>

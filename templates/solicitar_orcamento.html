@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Orçamento - TechHUB</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/solicitar_orcamento.css') }}">
+    <script src="https://kit.fontawesome.com/c444158913.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <!-- Logo -->
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='img/federacao-SP-horizontal-B.png') }}" alt="Logo ASSESPRO-SP" class="logo-assespro">
+                </div>
+
+                <div class="nav-links">
+                    <a href="{{ url_for('servicos') }}" class="nav-link">Serviços</a>
+                    <a href="{{ url_for('comunidade') }}" class="nav-link">Comunidade</a> 
+                    <a href="{{ url_for('sobre') }}" class="nav-link">Sobre</a>
+                    <a href="{{ url_for('contato') }}" class="nav-link">Serviço Personalizado</a>
+                </div>
+
+                <div class="nav-right">
+                    {% if empresa %}
+                        <a href="{{ url_for('client_profile') }}" class="perfil" id="perfil-desktop">
+                            <img src="{{ url_for('static', filename='img/user (2).png') }}" alt="icone-perfil">
+                            <span>{{ empresa.nome_empresa }}</span>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+                        <a href="{{ url_for('register') }}" class="nav-link">Cadastrar</a>
+                    {% endif %}
+                </div>
+
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars" id="mobileMenuIcon"></i>
+                </button>
+            </div>
+
+            <div class="mobile-nav hidden" id="mobileNav">
+                <a href="{{ url_for('index') }}" class="mobile-nav-link">Início</a>
+                <a href="{{ url_for('servicos') }}" class="mobile-nav-link">Serviços</a>
+                <a href="{{ url_for('comunidade') }}" class="mobile-nav-link">Comunidade</a> 
+                <a href="{{ url_for('sobre') }}" class="mobile-nav-link">Sobre</a>
+                <a href="{{ url_for('contato') }}" class="mobile-nav-link">Serviço Personalizado</a>
+                
+                <div class="mobile-auth" id="mobileAuth">
+                    {% if empresa %}
+                        <a href="{{ url_for('client_profile') }}" class="mobile-nav-link">Meu Perfil</a>
+                        <a href="{{ url_for('logout') }}" class="mobile-nav-link btn-logout">Sair</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="mobile-nav-link">Entrar</a>
+                        <a href="{{ url_for('register') }}" class="mobile-nav-link">Cadastre-se</a>
+                    {% endif %}
+                    <div class="mobile-contact">
+                        <div class="mobile-contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>(11) 99999-9999</span>
+                        </div>
+                        <div class="mobile-contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>contato@techhub.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="page-hero">
+        <div class="page-hero-bg"></div>
+        <div class="container">
+            <div class="page-hero-content">
+                <h1>Solicitar <span class="gradient-text">Orçamento</span></h1>
+                <p>Preencha os detalhes para que as empresas da categoria "{{ selected_category_name }}" possam te ajudar.</p>
+                <div class="breadcrumb">
+                    <a href="{{ url_for('index') }}">Início</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <a href="{{ url_for('servicos') }}">Serviços</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Solicitar Orçamento</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="request-quote-form-container">
+                <form action="{{ url_for('processar_orcamento_empresa') }}" method="POST" class="request-quote-form">
+                    <input type="hidden" name="category_name" value="{{ selected_category_name }}">
+
+                    <div class="form-section">
+                        <h2>1. Selecione as Empresas</h2>
+                        <p class="section-description">Selecione uma ou mais empresas da categoria **{{ selected_category_name }}** para as quais deseja enviar a solicitação de orçamento.</p>
+                        <div class="company-selection-grid">
+                            {% if empresas_na_categoria %}
+                                {% for empresa_item in empresas_na_categoria %}
+                                    <label class="company-checkbox-card">
+                                        <input type="checkbox" name="selected_companies" value="{{ empresa_item.id }}">
+                                        <div class="company-card-content">
+                                            <img src="{{ empresa_item.imagem_perfil_url }}" alt="Logo {{ empresa_item.nome_empresa }}" class="company-logo-small-form">
+                                            <span class="company-name-form">{{ empresa_item.nome_empresa }}</span>
+                                        </div>
+                                    </label>
+                                {% endfor %}
+                            {% else %}
+                                <p class="no-companies-found">Nenhuma empresa encontrada nesta categoria ainda.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2>2. Detalhes da Solicitação</h2>
+                        <p class="section-description">Descreva o serviço ou projeto que você precisa. Quanto mais detalhes, melhor as empresas poderão te ajudar!</p>
+                        
+                        <div class="form-group">
+                            <label for="project_title">Título do Projeto/Serviço:</label>
+                            <input type="text" id="project_title" name="project_title" placeholder="Ex: Desenvolvimento de E-commerce" required>
+                            <div class="form-error-message">Este campo é obrigatório.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="project_description">Descrição Detalhada:</label>
+                            <textarea id="project_description" name="project_description" rows="8" placeholder="Descreva suas necessidades, funcionalidades desejadas, prazo estimado e qualquer outra informação relevante."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="budget_range">Orçamento Estimado (Opcional):</label>
+                            <select id="budget_range" name="budget_range">
+                                <option value="">Não tenho certeza</option>
+                                <option value="< R$1.000">Abaixo de R$ 1.000</option>
+                                <option value="R$1.000 - R$5.000">R$ 1.000 - R$ 5.000</option>
+                                <option value="R$5.000 - R$10.000">R$ 5.000 - R$ 10.000</option>
+                                <option value="R$10.000 - R$25.000">R$ 10.000 - R$ 25.000</option>
+                                <option value="> R$25.000">Acima de R$ 25.000</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="deadline">Prazo Desejado (Opcional):</label>
+                            <input type="date" id="deadline" name="deadline">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2>3. Suas Informações de Contato</h2>
+                        <p class="section-description">As empresas usarão estas informações para entrar em contato com você.</p>
+                        
+                        <div class="form-group">
+                            <label for="contact_name">Seu Nome:</label>
+                            <input type="text" id="contact_name" name="contact_name" placeholder="Seu nome completo" required value="{{ empresa.nome_responsavel if empresa else '' }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact_email">Seu Email:</label>
+                            <input type="email" id="contact_email" name="contact_email" placeholder="seu@email.com" required value="{{ empresa.email_corporativo if empresa else '' }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact_phone">Seu Telefone (WhatsApp preferencial):</label>
+                            <input type="tel" id="contact_phone" name="contact_phone" placeholder="(XX) XXXXX-XXXX" value="{{ empresa.telefone_empresa if empresa else '' }}">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-request-btn">
+                        <i class="fas fa-paper-plane"></i> Enviar Solicitação de Orçamento
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-main">
+            <div class="container">
+                <div class="footer-grid">
+                    <!-- Company Info -->
+                    <div class="footer-section">
+                        <div class="footer-logo">
+                            <img src="{{ url_for('static', filename='img/federacao-SP-horizontal-B.png') }}" alt="Logo ASSESPRO-SP" class="footer-logo-assespro">
+                        </div>
+
+                        <p class="footer-description">
+                            A Federação ASSESPRO-SP conecta, fortalece e representa empresas de tecnologia no estado de São Paulo, promovendo inovação, networking e oportunidades.
+                        </p>
+                        <div class="footer-social">
+                            <a href="https://www.facebook.com/AssesproSP/" class="social-link"><i class="fab fa-facebook"></i></a>
+                            <a href="https://x.com/AssesproSP" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/assesprosp/" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com/company/assesprosp/" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="footer-section">
+                        <h3 class="footer-title">Links Rápidos</h3>
+                        <ul class="footer-links">
+                            <li><a href="{{ url_for('index') }}">Início</a></li>
+                            <li><a href="{{ url_for('servicos') }}">Serviços</a></li>
+                            <li><a href="{{ url_for('sobre') }}">Sobre</a></li>
+                            <li><a href="{{ url_for('contato') }}">Serviços Personalizados</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Technologies -->
+                    <div class="footer-section">
+                        <h3 class="footer-title">Tecnologias</h3>
+                        <ul class="footer-links">
+                            <li><a href="{{ url_for('servicos_por_categoria', category='IA & Machine Learning') }}">Inteligência Artificial</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='Desenvolvimento Web') }}">Desenvolvimento Web</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='Apps Mobile') }}">Apps Mobile</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='Cybersecurity') }}">Cybersecurity</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='DevOps & Cloud') }}">DevOps & Cloud</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="footer-section">
+                        <h3 class="footer-title">Contato</h3>
+                        <div class="footer-contact">
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>+55 11 3064-0003</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>assespro@assespro-sp.org.br</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Brooklin Novo<br>São Paulo/SP</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="newsletter">
+                    <div class="newsletter-content">
+                        <h3 class="newsletter-title">Newsletter Tech</h3>
+                        <p class="newsletter-description">
+                            Receba as últimas novidades em tecnologia, IA e desenvolvimento diretamente no seu e-mail
+                        </p>
+                        <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+                            <input type="email" placeholder="dev@exemplo.com" class="newsletter-input" required>
+                            <button type="submit" class="newsletter-btn">
+                                <span>Assinar</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <div class="footer-copyright">
+                        © 2025 ASSESPRO-SP. Todos os direitos reservados.
+                    </div>
+                    <div class="footer-legal">
+                        <a href="#">Política de Privacidade</a>
+                        <a href="#">Termos de Uso</a>
+                        <a href="#">Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+    <script>
+        // Funções de menu mobile
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileMenuIcon = document.getElementById('mobileMenuIcon');
+            mobileNav.classList.toggle('hidden');
+            mobileMenuIcon.classList.toggle('fa-bars');
+            mobileMenuIcon.classList.toggle('fa-times');
+        }
+
+        // Funções para lidar com o newsletter 
+        function handleNewsletter(event) {
+            event.preventDefault();
+            alert('Assinatura da newsletter simulada!');
+        }
+
+        // Funções de modal
+        function openLoginModal() {
+            window.location.href = "{{ url_for('login') }}";
+        }
+        function closeLoginModal() {
+        }
+        function togglePassword(button) {
+            const passwordInput = button.previousElementSibling;
+            const icon = button.querySelector('i');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
+    <script>
+        // Adiciona um listener para o formulário de orçamento.
+        document.addEventListener('DOMContentLoaded', () => {
+            const quoteForm = document.querySelector('.request-quote-form');
+    
+            if (quoteForm) {
+                quoteForm.addEventListener('submit', (event) => {
+                    // Se o formulário não for válido, o navegador vai impedir o envio.
+                    // Adicionamos uma classe para indicar que a validação já foi tentada.
+                    if (!quoteForm.checkValidity()) {
+                        event.preventDefault(); // Garante que não será enviado se inválido
+                        quoteForm.classList.add('form-validated');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

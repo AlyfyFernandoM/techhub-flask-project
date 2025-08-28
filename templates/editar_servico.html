@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Edite seu serviço ou projeto no techHUB.">
+    <title>Editar Serviço/Projeto - techHUB</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/publicar-projeto.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://kit.fontawesome.com/c444158913.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <!-- Logo -->
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='img/federacao-SP-horizontal-B.png') }}" alt="Logo ASSESPRO-SP" class="logo-assespro">
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="nav-links">
+                    <a href="{{ url_for('servicos') }}" class="nav-link">Serviços</a>
+                    <a href="{{ url_for('comunidade') }}" class="nav-link">Comunidade</a> 
+                    <a href="{{ url_for('sobre') }}" class="nav-link">Sobre</a>
+                    <a href="{{ url_for('contato') }}" class="nav-link">Serviço Personalizado</a>
+                </div>
+
+                <!-- Right Section -->
+                <div class="nav-right">
+                   <div class="perfil" id="perfil">
+                        <a href="{{ url_for('client_profile') }}"><img src="{{ url_for('static', filename='img/user (2).png') }}" alt="icone-perfil"></a>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars" id="mobileMenuIcon"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="mobile-nav hidden" id="mobileNav">
+                <a href="{{ url_for('index') }}" class="mobile-nav-link">Início</a>
+                <a href="{{ url_for('servicos') }}" class="mobile-nav-link">Serviços</a>
+                <a href="{{ url_for('comunidade') }}" class="mobile-nav-link">Comunidade</a> 
+                <a href="{{ url_for('sobre') }}" class="mobile-nav-link">Sobre</a>
+                <a href="{{ url_for('contato') }}" class="mobile-nav-link">Serviço Personalizado</a>
+                
+                <!-- Mobile Auth Section -->
+                <div class="mobile-auth" id="mobileAuth">
+                    {% if empresa %}
+                        <a href="{{ url_for('client_profile') }}" class="mobile-nav-link">Meu Perfil</a>
+                        <a href="{{ url_for('logout') }}" class="mobile-nav-link btn-logout">Sair</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="mobile-nav-link">Entrar</a>
+                        <a href="{{ url_for('register') }}" class="mobile-nav-link">Cadastre-se</a>
+                    {% endif %}
+                    <div class="mobile-contact">
+                        <div class="mobile-contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>(11) 99999-9999</span>
+                        </div>
+                        <div class="mobile-contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>contato@techhub.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <div class="page-hero-content">
+                <h1>Editar <span class="gradient-text">Serviço/Projeto</span></h1>
+                <p>Atualize as informações do seu trabalho.</p>
+                <div class="breadcrumb">
+                    <a href="{{ url_for('index') }}">Início</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <a href="{{ url_for('client_profile') }}">Perfil</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Editar</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-form-section">
+        <div class="container">
+            {# Mensagens Flash #}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="flash-messages">
+                        {% for category, message in messages %}
+                            <li class="flash-message flash-{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
+            <div class="contact-form-container">
+                <form class="contact-form" id="editProjectForm" method="POST" action="{{ url_for('editar_servico', servico_id=servico.id) }}">
+                    <div class="form-group">
+                        <label for="projectName">Título do Serviço/Projeto</label>
+                        <input type="text" id="projectName" name="projectName" value="{{ servico.nome_servico }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shortDescription">Descrição Curta</label>
+                        <input type="text" id="shortDescription" name="shortDescription" value="{{ servico.descricao_curta }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fullDescription">Descrição Completa</label>
+                        <textarea id="fullDescription" name="fullDescription" rows="6" required>{{ servico.descricao_servico }}</textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="category">Categoria</label>
+                            <select id="category" name="category" required>
+                                <option value="">Selecione uma categoria</option>
+                                {% for categoria in categorias %}
+                                    <option value="{{ categoria.nome_categoria }}" {% if servico.categoria_id == categoria.id %}selected{% endif %}>{{ categoria.nome_categoria }}</option>
+                                {% endfor %}
+                                <option value="Outro">Outro (será criada)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tech">Tecnologias (separadas por vírgula)</label>
+                            <input type="text" id="tech" name="tech" value="{{ servico.tecnologias or '' }}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="projectUrl">Link do Serviço/Projeto (Site, Portfólio, GitHub, etc.)</label>
+                            <input type="url" id="projectUrl" name="projectUrl" value="{{ servico.projeto_url or '' }}">
+                        </div>
+                    </div>
+                    <button type="submit" class="form-submit">Atualizar Serviço/Projeto</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-main">
+            <div class="container">
+                <div class="footer-grid">
+                    <!-- Company Info -->
+                    <div class="footer-section">
+                        <div class="footer-logo">
+                            <img src="{{ url_for('static', filename='img/federacao-SP-horizontal-B.png') }}" alt="Logo ASSESPRO-SP" class="footer-logo-assespro">
+                        </div>
+
+                        <p class="footer-description">
+                            A Federação ASSESPRO-SP conecta, fortalece e representa empresas de tecnologia no estado de São Paulo, promovendo inovação, networking e oportunidades.
+                        </p>
+                        <div class="footer-social">
+                            <a href="https://www.facebook.com/AssesproSP/" class="social-link"><i class="fab fa-facebook"></i></a>
+                            <a href="https://x.com/AssesproSP" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/assesprosp/" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com/company/assesprosp/" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="footer-section">
+                        <h3 class="footer-title">Links Rápidos</h3>
+                        <ul class="footer-links">
+                            <li><a href="{{ url_for('index') }}">Início</a></li>
+                            <li><a href="{{ url_for('servicos') }}">Serviços</a></li>
+                            <li><a href="{{ url_for('sobre') }}">Sobre</a></li>
+                            <li><a href="{{ url_for('contato') }}">Serviço Personalizado</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Technologies -->
+                    <div class="footer-section">
+                        <h3 class="footer-title">Tecnologias</h3>
+                        <ul class="footer-links">
+                            <li><a href="{{ url_for('servicos_por_categoria', category='IA & Machine Learning') }}">Inteligência Artificial</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='Desenvolvimento Web') }}">Desenvolvimento Web</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='Apps Mobile') }}">Apps Mobile</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='Cybersecurity') }}">Cybersecurity</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='DevOps & Cloud') }}">DevOps & Cloud</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="footer-section">
+                        <h3 class="footer-title">Contato</h3>
+                        <div class="footer-contact">
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>+55 11 3064-0003</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>assespro@assespro-sp.org.br</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Brooklin Novo<br>São Paulo/SP</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="newsletter">
+                    <div class="newsletter-content">
+                        <h3 class="newsletter-title">Newsletter Tech</h3>
+                        <p class="newsletter-description">
+                            Receba as últimas novidades em tecnologia, IA e desenvolvimento diretamente no seu e-mail
+                        </p>
+                        <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+                            <input type="email" placeholder="dev@exemplo.com" class="newsletter-input" required>
+                            <button type="submit" class="newsletter-btn">
+                                <span>Assinar</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <div class="footer-copyright">
+                        © 2025 ASSESPRO-SP. Todos os direitos reservados.
+                    </div>
+                    <div class="footer-legal">
+                        <a href="#">Política de Privacidade</a>
+                        <a href="#">Termos de Uso</a>
+                        <a href="#">Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/commom.js') }}"></script>
+    <script>
+        // Funções de modal 
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // Funções de alternância de senha
+        function togglePassword(button) {
+            const passwordInput = button.previousElementSibling;
+            const icon = button.querySelector('i');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Funções de menu mobile 
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileMenuIcon = document.getElementById('mobileMenuIcon');
+            mobileNav.classList.toggle('hidden');
+            mobileMenuIcon.classList.toggle('fa-bars');
+            mobileMenuIcon.classList.toggle('fa-times');
+        }
+
+        // Funções para lidar com o newsletter 
+        function handleNewsletter(event) {
+            event.preventDefault();
+            alert('Assinatura da newsletter simulada!');
+        }
+    </script>
+</body>
+</html>

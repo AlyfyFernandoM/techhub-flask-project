@@ -1,0 +1,257 @@
+/* Estilos de Validação Controlada */
+
+/* Mostra os estilos de erro APENAS quando o formulário foi validado */
+.form-validated input:invalid,
+.form-validated textarea:invalid,
+.form-validated select:invalid {
+    border-color: #e74c3c; /* Vermelho para erro */
+}
+
+.form-validated input:invalid:focus,
+.form-validated textarea:invalid:focus,
+.form-validated select:invalid:focus {
+    box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
+}
+
+/* Opcional: Adicionar uma mensagem de erro genérica que só aparece após a validação */
+.form-error-message {
+    display: none;
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 5px;
+}
+
+/* CORREÇÃO: Seletor agora inclui textarea e select e é mais robusto (usa ~) */
+.form-validated input:invalid ~ .form-error-message,
+.form-validated textarea:invalid ~ .form-error-message,
+.form-validated select:invalid ~ .form-error-message {
+    display: block;
+}
+
+.main-content {
+    padding: 4rem 0;
+    background-color: #f8f9fa;
+}
+
+.request-quote-form-container {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 3rem;
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid #e0e0e0;
+}
+
+.request-quote-form .form-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #eee;
+}
+
+.request-quote-form .form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.request-quote-form h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.request-quote-form .section-description {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.request-quote-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.request-quote-form label {
+    display: block;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 0.7rem;
+    font-size: 1em;
+}
+
+.request-quote-form input[type="text"],
+.request-quote-form input[type="email"],
+.request-quote-form input[type="tel"],
+.request-quote-form input[type="date"],
+.request-quote-form textarea,
+.request-quote-form select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    color: #333;
+    box-sizing: border-box; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.request-quote-form input:focus,
+.request-quote-form textarea:focus,
+.request-quote-form select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+.request-quote-form textarea {
+    resize: vertical; 
+    min-height: 120px;
+}
+
+/* Grid de seleção de empresas */
+.company-selection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 1rem;
+}
+
+.company-checkbox-card {
+    display: flex;
+    align-items: center;
+    background-color: #fdfdfd;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden; 
+}
+
+.company-checkbox-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-color: #99caff; /* Um azul mais suave para hover */
+    transform: translateY(-3px);
+}
+
+.company-checkbox-card input[type="checkbox"] {
+    position: absolute; 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.company-checkbox-card .company-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+    /* Adicionado para transição suave da cor de fundo */
+    transition: background-color 0.2s ease;
+    border-radius: 8px;
+}
+
+/* MELHORIA: Estiliza o card quando o checkbox interno é selecionado */
+.company-checkbox-card input[type="checkbox"]:checked ~ .company-card-content {
+    background-color: #e6f2ff;
+}
+
+.company-logo-small-form {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    margin-bottom: 8px;
+    transition: border-color 0.2s ease;
+}
+
+/* MELHORIA: A borda do logo muda quando o card é selecionado */
+.company-checkbox-card input[type="checkbox"]:checked ~ .company-card-content .company-logo-small-form {
+    border-color: #007bff; 
+}
+
+.company-name-form {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95em;
+    line-height: 1.2;
+}
+
+.no-companies-found {
+    grid-column: 1 / -1; 
+    text-align: center;
+    color: #777;
+    padding: 20px 0;
+    font-style: italic;
+}
+
+.submit-request-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 15px 25px;
+    background-color: #28a745; 
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    gap: 10px;
+    margin-top: 2rem;
+}
+
+.submit-request-btn:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .request-quote-form-container {
+        padding: 2rem;
+    }
+    .request-quote-form h2 {
+        font-size: 1.6rem;
+    }
+    .company-selection-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .request-quote-form-container {
+        padding: 1.5rem;
+    }
+    .request-quote-form h2 {
+        font-size: 1.4rem;
+    }
+    .company-selection-grid {
+        grid-template-columns: 1fr; 
+    }
+    .company-checkbox-card {
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 15px;
+    }
+    .company-checkbox-card .company-card-content {
+        flex-direction: row;
+        text-align: left;
+        align-items: center;
+        /* Correção para não aplicar background em toda a linha */
+        width: fit-content;
+        padding: 5px; /* Adiciona um pequeno espaçamento interno */
+    }
+    .company-logo-small-form {
+        margin-bottom: 0;
+        margin-right: 10px;
+    }
+}

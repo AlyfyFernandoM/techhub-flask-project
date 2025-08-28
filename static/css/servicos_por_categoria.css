@@ -1,0 +1,213 @@
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Quadrados responsivos */
+    gap: 25px; /* Espaçamento entre os cards */
+    padding: 30px 20px; /* Mais padding para o grid */
+    max-width: 1200px; /* Largura máxima atual */
+    margin: 0 auto;
+}
+
+/* Card de serviço (o "quadradinho") */
+.service-card {
+    background-color: #ffffff; /* Fundo branco para destaque */
+    border: 1px solid #e0e0e0; /* Borda suave */
+    border-radius: 12px; /* Cantos mais arredondados */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); /* Sombra mais pronunciada */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Empurra o footer para baixo */
+    height: 100%; /* Garante que todos os cards na linha tenham a mesma altura */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Efeito hover suave */
+}
+
+.service-card:hover {
+    transform: translateY(-5px); /* Pequeno levantamento no hover */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* Sombra mais intensa no hover */
+}
+
+/* Header do card com info da empresa */
+.company-info-header {
+    padding: 15px 20px;
+    background-color: #f8f8f8; /* Fundo levemente cinza */
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza a imagem e o nome */
+    flex-direction: column; /* Coloca a imagem acima do nome */
+    text-align: center;
+}
+
+.company-info-header .company-link {
+    display: flex;
+    flex-direction: column; /* Para empilhar imagem e nome */
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    width: 100%; /* Ocupa toda a largura do header */
+}
+
+.company-logo-small {
+    width: 60px; /* Tamanho da imagem de perfil da empresa */
+    height: 60px;
+    border-radius: 50%; /* Imagem redonda */
+    object-fit: cover;
+    border: 3px solid #007bff; /* Borda azul destacada */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Sombra na imagem */
+    margin-bottom: 10px; /* Espaço entre a imagem e o nome */
+}
+
+.company-name-large {
+    font-size: 1.6em; /* Nome da empresa BEM GRANDE */
+    font-weight: 700; /* Negrito */
+    color: #333; /* Cor mais escura para destaque */
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* Imagem do serviço (dentro do card) */
+.service-image-card {
+    width: 100%;
+    height: 160px; /* Altura fixa para a imagem do serviço */
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+.service-image-placeholder {
+    width: 100%;
+    height: 160px;
+    background-color: #f0f0f0; /* Cor de fundo para placeholder */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ccc;
+    font-size: 1.2em;
+    border-bottom: 1px solid #eee;
+}
+
+/* Conteúdo principal do serviço */
+.service-content {
+    padding: 15px 20px;
+    flex-grow: 1; /* Permite que o conteúdo se expanda */
+}
+
+.service-title {
+    font-size: 1.3em; /* Título do serviço */
+    font-weight: 600;
+    color: #007bff; /* Cor azul para o título */
+    margin-top: 0;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.service-description-short {
+    font-size: 0.95em;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    /* Adicione um max-height e overflow se quiser limitar a descrição */
+    /* max-height: 4.5em; */
+    /* overflow: hidden; */
+}
+
+/* Rodapé do card com botões */
+.service-card-footer-buttons {
+    padding: 10px 20px 20px; /* Padding para os botões */
+    border-top: 1px solid #eee;
+    display: flex;
+    flex-direction: column; /* Botões empilhados */
+    gap: 10px; /* Espaçamento entre os botões */
+}
+
+.btn-primary, .btn-secondary {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    text-align: center;
+    border-radius: 8px; /* Cantos arredondados para os botões */
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff; /* Azul primário */
+    color: white;
+    border: 1px solid #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #f0f0f0; /* Fundo cinza claro */
+    color: #333;
+    border: 1px solid #d0d0d0;
+}
+
+.btn-secondary:hover {
+    background-color: #e0e0e0;
+    border-color: #c0c0c0;
+    color: #111;
+}
+
+/* Mensagem de "Nenhum serviço encontrado" */
+.no-services-found {
+    grid-column: 1 / -1; /* Ocupa todas as colunas do grid */
+    text-align: center;
+    padding: 40px 0;
+    color: #777;
+    font-size: 1.1em;
+}
+
+/* Para o filtro de categoria - pode ajustar como necessário */
+.category-filter {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.category-filter label {
+    font-size: 1.1em;
+    color: #555;
+    margin-right: 10px;
+}
+
+.category-filter select {
+    padding: 10px 15px;
+    font-size: 1em;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.category-filter :focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.category-search {
+    margin-top: 1rem; /* Espaçamento acima do campo de pesquisa */
+    margin: 14px;
+    line-height: 2em;
+}
+
+.category-search input {
+    font-size: 1em;
+    width: 100%; /* Largura total */
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.category-search :focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}

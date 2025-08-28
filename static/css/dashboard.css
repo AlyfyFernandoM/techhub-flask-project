@@ -1,0 +1,336 @@
+.dashboard-section {
+    padding: 4rem 0;
+    background-color: #f4f7f6;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+.dashboard-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    border: 1px solid #e0e0e0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+#budgetByCategoryChart {
+    width: 100%; /* Ocupa a largura total do seu elemento pai */
+    height: 300px; /* Exemplo: defina uma altura razoável */
+    /* Ou, se preferir uma altura máxima responsiva */
+    /* max-height: 50vh; */
+}
+
+.card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+    flex-shrink: 0; /* Impede que o ícone encolha */
+}
+
+.card-icon.blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+.card-icon.purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+.card-icon.emerald { background: linear-gradient(135deg, #10b981, #047857); }
+.card-icon.orange { background: linear-gradient(135deg, #f97316, #ea580c); }
+
+.card-content {
+    flex-grow: 1;
+}
+
+.card-title {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.card-value {
+    font-size: 2.3rem;
+    font-weight: bold;
+    color: #1a202c;
+    line-height: 1;
+}
+
+.card-subtitle {
+    font-size: 0.9rem;
+    color: #777;
+    margin-top: 0.5rem;
+}
+
+/* Seção de Detalhes e Gráficos */
+.dashboard-details-section {
+    padding: 4rem 0;
+    background-color: #ffffff;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.details-card {
+    background-color: #fdfdfd;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    padding: 2rem;
+    border: 1px solid #e9ecef;
+    /* Adicione uma altura ou altura mínima para os cards com gráficos */
+    /* Por exemplo: */
+    height: 400px; 
+    display: flex;       /* Adiciona flexbox */
+    flex-direction: column; /* Organiza o conteúdo em coluna */
+}
+
+.details-card canvas {
+    /* Garante que o canvas possa crescer para preencher o espaço */
+    flex-grow: 1; 
+    min-height: 0; /* Previne problemas de overflow do flexbox */
+}
+
+.details-card h3 {
+    flex-shrink: 0; /* Impede que o título encolha */
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.8rem;
+}
+
+.card-container {
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    border-radius: 0.5rem; /* Bordas arredondadas */
+    padding: 1.5rem; /* Espaçamento interno */
+}
+
+/* Títulos dentro dos cartões */
+.card-container h2 {
+    font-size: 1rem; /* Tamanho do título */
+    font-weight: 600; /* Semibold */
+    color: #374151; /* Cor de texto cinza escuro */
+    margin-bottom: 1rem; /* Espaço abaixo do título */
+}
+
+/* Estilo para tabelas dentro dos relatórios */
+.card-container table {
+    width: 100%; /* Largura total */
+    border-collapse: collapse; /* Colapsa bordas da tabela */
+    margin-top: 1rem; /* Espaço acima da tabela */
+}
+
+.card-container th,
+.card-container td {
+    padding: 0.75rem 1rem; /* Espaçamento interno das células */
+    border-bottom: 1px solid #e5e7eb; /* Borda inferior sutil */
+    text-align: left; /* Alinhamento do texto */
+    font-size: 0.9rem; /* Tamanho da fonte */
+    color: #4b5563; /* Cor do texto */
+}
+
+.card-container th {
+    background-color: #f9fafb; /* Cor de fundo para o cabeçalho da tabela */
+    font-weight: 600; /* Semibold para cabeçalhos */
+    color: #374151; /* Cor mais escura para cabeçalhos */
+    text-transform: uppercase; /* Texto em maiúsculas */
+    letter-spacing: 0.05em; /* Espaçamento entre letras */
+}
+
+/* Linhas da tabela ao passar o mouse */
+.card-container tbody tr:hover {
+    background-color: #f3f4f6; /* Cor de fundo ao passar o mouse */
+}
+
+/* Mensagem de "Carregando..." ou "Nenhum dado..." */
+.card-container .text-center {
+    text-align: center;
+    color: #6b7280;
+    padding: 1rem;
+}
+
+/* --- Estilo para os botões de Exportar (Opcional, se precisar de mais customização além do Tailwind) --- */
+.export-button {
+    /* Tailwind já faz grande parte disso, mas se precisar de ajustes finos: */
+    display: inline-block;
+    padding: 0.625rem 1rem; /* Equivalente a py-2 px-4 */
+    border-radius: 0.375rem; /* Equivalente a rounded-md */
+    font-weight: 700; /* Equivalente a font-bold */
+    color: #ffffff; /* Texto branco */
+    text-align: center;
+    text-decoration: none; /* Remover sublinhado de links */
+    transition: background-color 0.3s ease; /* Transição suave na cor de fundo */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para botões */
+}
+
+.export-button.blue {
+    background-color: #3b82f6; /* bg-blue-500 */
+}
+
+.export-button.blue:hover {
+    background-color: #2563eb; /* hover:bg-blue-600 */
+}
+
+.export-button.green {
+    background-color: #10b981; /* bg-green-500 */
+}
+
+.export-button.green:hover {
+    background-color: #059669; /* hover:bg-green-600 */
+}
+
+.export-button.purple {
+    background-color: #8b5cf6; /* bg-purple-500 */
+}
+
+.export-button.purple:hover {
+    background-color: #7c3aed; /* hover:bg-purple-600 */
+}
+
+/*Estilos para relatórios*/
+.card-container {
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    border-radius: 0.5rem; /* Bordas arredondadas */
+    padding: 1.5rem; /* Espaçamento interno */
+}
+
+/* Títulos dentro dos cartões */
+.card-container h2 {
+    font-size: 1.5rem; /* Tamanho do título */
+    font-weight: 600; /* Semibold */
+    color: #374151; /* Cor de texto cinza escuro */
+    margin-bottom: 1rem; /* Espaço abaixo do título */
+}
+
+/* Estilo para tabelas dentro dos relatórios */
+.card-container table {
+    width: 100%; /* Largura total */
+    border-collapse: collapse; /* Colapsa bordas da tabela */
+    margin-top: 1rem; /* Espaço acima da tabela */
+}
+
+.card-container th,
+.card-container td {
+    padding: 0.75rem 1rem; /* Espaçamento interno das células */
+    border-bottom: 1px solid #e5e7eb; /* Borda inferior sutil */
+    text-align: left; /* Alinhamento do texto */
+    font-size: 0.9rem; /* Tamanho da fonte */
+    color: #4b5563; /* Cor do texto */
+}
+
+.card-container th {
+    background-color: #f9fafb; /* Cor de fundo para o cabeçalho da tabela */
+    font-weight: 600; /* Semibold para cabeçalhos */
+    color: #374151; /* Cor mais escura para cabeçalhos */
+    text-transform: uppercase; /* Texto em maiúsculas */
+    letter-spacing: 0.05em; /* Espaçamento entre letras */
+}
+
+/* Linhas da tabela ao passar o mouse */
+.card-container tbody tr:hover {
+    background-color: #f3f4f6; /* Cor de fundo ao passar o mouse */
+}
+
+/* Mensagem de "Carregando..." ou "Nenhum dado..." */
+.card-container .text-center {
+    text-align: center;
+    color: #6b7280;
+    padding: 1rem;
+}
+
+/* --- Estilo para os botões de Exportar (Opcional, se precisar de mais customização além do Tailwind) --- */
+.export-button {
+    /* Tailwind já faz grande parte disso, mas se precisar de ajustes finos: */
+    display: inline-block;
+    padding: 0.625rem 1rem; /* Equivalente a py-2 px-4 */
+    border-radius: 0.375rem; /* Equivalente a rounded-md */
+    font-weight: 700; /* Equivalente a font-bold */
+    color: #ffffff; /* Texto branco */
+    text-align: center;
+    text-decoration: none; /* Remover sublinhado de links */
+    transition: background-color 0.3s ease; /* Transição suave na cor de fundo */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para botões */
+}
+
+.export-button.blue {
+    background-color: #3b82f6; /* bg-blue-500 */
+}
+
+.export-button.blue:hover {
+    background-color: #2563eb; /* hover:bg-blue-600 */
+}
+
+.export-button.green {
+    background-color: #10b981; /* bg-green-500 */
+}
+
+.export-button.green:hover {
+    background-color: #059669; /* hover:bg-green-600 */
+}
+
+.export-button.purple {
+    background-color: #8b5cf6; /* bg-purple-500 */
+}
+
+.export-button.purple:hover {
+    background-color: #7c3aed; /* hover:bg-purple-600 */
+}
+
+/* Ajustes para o layout responsivo (se necessário) */
+@media (max-width: 768px) {
+    .card-container {
+        padding: 1rem;
+    }
+
+    .card-container h2 {
+        font-size: 1.25rem;
+    }
+
+    .card-container th,
+    .card-container td {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+    }
+
+    /* Ajuste para botões em telas pequenas */
+    .flex.flex-wrap.gap-4 {
+        flex-direction: column; /* Empilha os botões verticalmente */
+    }
+    .export-button {
+        width: 100%; /* Botões ocupam a largura total */
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    .dashboard-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    .card-icon {
+        margin-bottom: 1rem;
+    }
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+}

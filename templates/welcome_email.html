@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9; }
+        h2 { color: #0056b3; }
+        p { margin-bottom: 10px; }
+        .footer { margin-top: 20px; font-size: 0.9em; color: #666; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Bem-vindo(a) ao TechHUB, {{ empresa.nome_empresa }}!</h2>
+        <p>Olá {{ empresa.nome_responsavel }},</p>
+        <p>Seu cadastro no TechHUB foi realizado com sucesso!</p>
+        <p>Estamos muito felizes em tê-lo(a) conosco.</p>
+        <p>Você pode acessar seu perfil aqui: <a href="{{ url_for('client_profile', _external=True) }}">Meu Perfil TechHUB</a></p>
+        <p>Data de registro: {{ now.strftime('%d/%m/%Y %H:%M:%S') }}</p>
+        <div class="footer">
+            <p>Atenciosamente,<br>A Equipe TechHUB</p>
+        </div>
+    </div>
+</body>
+</html>

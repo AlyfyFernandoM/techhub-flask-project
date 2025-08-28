@@ -1,0 +1,196 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #06b6d4, #3b82f6);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #0891b2, #2563eb);
+}
+
+/* Estilos específicos para a página Publicar Projeto */
+
+.contact-form-section {
+    padding: 5rem 0;
+    background: #f9fafb; /* Fundo claro, consistente com outras seções */
+}
+
+.contact-form-container {
+    background: white;
+    border-radius: 1rem;
+    padding: 2.5rem; /* Aumentar um pouco o padding */
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); /* Sombra mais pronunciada */
+    border: 1px solid #e5e7eb; /* Borda mais suave */
+    transition: all 0.3s ease-in-out; /* Adicionar transição para hover */
+}
+
+.contact-form-container:hover {
+    box-shadow: 0 15px 35px -8px rgba(0, 0, 0, 0.15); /* Sombra mais intensa no hover */
+    border-color: #dbeafe; /* Borda azul clara no hover */
+}
+
+.form-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* Espaçamento maior */
+    margin-bottom: 2rem; /* Mais espaço abaixo do cabeçalho */
+    justify-content: center; /* Centralizar o cabeçalho */
+}
+
+.form-header i {
+    font-size: 2.5rem; /* Ícone maior */
+    color: #10b981; /* Cor verde esmeralda, como no overview-icon.emerald */
+    background: linear-gradient(135deg, #10b981, #047857); /* Gradiente para o ícone */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.form-header h2 {
+    font-size: 2rem; /* Título maior */
+    font-weight: bold;
+    color: #111827;
+    background: linear-gradient(45deg, #1e293b, #10b981); /* Gradiente para o título */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600; /* Mais negrito */
+    color: #374151;
+    margin-bottom: 0.6rem; /* Espaçamento ligeiramente maior */
+    font-size: 0.95rem; /* Fonte um pouco maior */
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; /* Aumentar o gap entre as colunas */
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="url"],
+.contact-form select,
+.contact-form textarea {
+    width: 100%;
+    padding: 0.85rem 1rem; /* Aumentar o padding interno */
+    border: 1px solid #d1d5db;
+    border-radius: 0.6rem; /* Borda mais arredondada */
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-size: 1rem;
+    color: #374151;
+    background-color: #fdfdfd; /* Fundo levemente diferente */
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+    border-color: #3b82f6; /* Cor de foco azul */
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); /* Sombra de foco mais suave */
+}
+
+.contact-form textarea {
+    resize: vertical;
+    min-height: 120px; /* Altura mínima um pouco maior */
+}
+
+.form-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem; /* Espaçamento maior para o ícone */
+    width: 100%;
+    padding: 1rem 1.5rem; /* Padding maior para o botão */
+    background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+    color: white;
+    border: none;
+    border-radius: 0.75rem; /* Borda mais arredondada */
+    font-weight: 700; /* Mais negrito */
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; /* Transição mais suave */
+    box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
+    font-size: 1.15rem; /* Fonte maior */
+    text-transform: uppercase; /* Texto em maiúsculas */
+    letter-spacing: 0.05em; /* Espaçamento entre letras */
+}
+
+.form-submit:hover {
+    background: linear-gradient(45deg, #059669, #065f46); /* Gradiente mais escuro no hover */
+    transform: translateY(-3px); /* Efeito de "levantar" mais pronunciado */
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3); /* Sombra mais intensa no hover */
+}
+
+.form-submit i {
+    font-size: 1.25rem; /* Tamanho do ícone no botão */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr; /* Colunas empilhadas em telas menores */
+        gap: 1.5rem; /* Manter o gap vertical */
+    }
+
+    .contact-form-container {
+        padding: 2rem;
+    }
+
+    .form-header h2 {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-form-section {
+        padding: 3rem 0;
+    }
+    .contact-form-container {
+        border-radius: 0;
+        box-shadow: none;
+        padding: 1.5rem;
+    }
+    .form-header h2 {
+        font-size: 1.5rem;
+    }
+    .form-submit {
+        padding: 0.85rem 1rem;
+        font-size: 1rem;
+    }
+}

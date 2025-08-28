@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - {{ empresa.nome_empresa }} - techHUB</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}"> {# Seu arquivo CSS para o perfil #}
+    <script src="https://kit.fontawesome.com/c444158913.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <!-- Logo -->
+                    <div class="logo">
+                        <img src="{{ url_for('static', filename='img/federacao-SP-horizontal-B.png') }}" alt="Logo ASSESPRO-SP" class="logo-assespro">
+                    </div>
+
+                <!-- Desktop Navigation -->
+                <div class="nav-links">
+                    <a href="{{ url_for('servicos') }}" class="nav-link">Serviços</a>
+                    <a href="{{ url_for('comunidade') }}" class="nav-link">Comunidade</a>
+                    <a href="{{ url_for('sobre') }}" class="nav-link">Sobre</a>
+                    <a href="{{ url_for('contato') }}" class="nav-link">Serviço Personalizado</a>
+                </div>
+
+                <!-- Right Section -->
+                <div class="nav-right">
+                    {# Verifica se a empresa está logada para mostrar o perfil/logout #}
+                    {% if empresa %}
+                        <a href="{{ url_for('client_profile') }}" class="perfil" id="perfil-desktop">
+                            <!-- Cache buster na imagem do cabeçalho -->
+                            <img src="{{ url_for('static', filename='img/user (2).png') }}" alt="icone-perfil">
+                            <span>{{ empresa.nome_empresa }}</span>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+                        <a href="{{ url_for('register') }}" class="nav-link">Cadastrar</a>
+                    {% endif %}
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars" id="mobileMenuIcon"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="mobile-nav hidden" id="mobileNav">
+                <a href="{{ url_for('index') }}" class="mobile-nav-link">Início</a>
+                <a href="{{ url_for('servicos') }}" class="mobile-nav-link">Serviços</a>
+                <a href="{{ url_for('comunidade') }}" class="mobile-nav-link">Comunidade</a>
+                <a href="{{ url_for('sobre') }}" class="mobile-nav-link">Sobre</a>
+                <a href="{{ url_for('contato') }}" class="mobile-nav-link">Serviço Personalizado</a>
+
+                <!-- Mobile Auth Section -->
+                <div class="mobile-auth" id="mobileAuth">
+                    {% if empresa %}
+                        <a href="{{ url_for('client_profile') }}" class="mobile-nav-link">Meu Perfil</a>
+                        <a href="{{ url_for('logout') }}" class="mobile-nav-link btn-logout">Sair</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="mobile-nav-link">Entrar</a>
+                        <a href="{{ url_for('register') }}" class="mobile-nav-link">Cadastre-se</a>
+                    {% endif %}
+                    <div class="mobile-contact">
+                        <div class="mobile-contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>(11) 99999-9999</span>
+                        </div>
+                        <div class="mobile-contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>contato@techhub.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <div class="page-hero-content">
+                <h1>Perfil da <span class="gradient-text">Empresa</span></h1>
+                <p>Gerencie suas informações e seus serviços/projetos publicados.</p>
+                <div class="breadcrumb">
+                    <a href="{{ url_for('index') }}">Início</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Meu Perfil</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <!-- Mensagens Flash -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="container flash-messages-container">
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Profile Section -->
+        <section class="profile-section">
+            <div class="container profile-container">
+                <div class="profile-sidebar">
+                    <div class="profile-avatar" id="profileAvatar">
+                        {% if empresa.imagem_perfil_url %}
+                            <!-- IMAGEM PRINCIPAL DO PERFIL: ID 'mainProfileImage' e cache buster -->
+                            <img id="mainProfileImage" 
+                                 src="{{ empresa.imagem_perfil_url }}?v={{ empresa.last_updated.timestamp() if empresa.last_updated else '' }}" 
+                                 alt="Foto de Perfil">
+                        {% else %}
+                            {# Fallback para iniciais se não houver imagem #}
+                            <span>{{ empresa.nome_empresa[0]|upper if empresa.nome_empresa else '?' }}</span>
+                        {% endif %}
+                    </div>
+                    <h3 class="profile-name">{{ empresa.nome_empresa }}</h3>
+                    <p class="profile-email">{{ empresa.email_corporativo }}</p>
+                    <p class="profile-company-name">{{ empresa.nome_responsavel }}</p>
+
+                    <div class="sidebar-buttons">
+                        <a href="{{ url_for('publicar_projeto') }}" class="cta-btn primary full-width">
+                            <i class="fas fa-plus-circle"></i> Publicar Novo Serviço
+                        </a>
+                        <a href="#my-services-section" class="cta-btn primary full-width">
+                            <i class="fas fa-list"></i> Meus Serviços
+                        </a>
+                        <button class="cta-btn tertiary full-width" onclick="openModal('editProfileModal')">
+                            <i class="fas fa-edit"></i> Editar Perfil
+                        </button>
+                        <a href="{{ url_for('logout') }}" class="cta-btn danger full-width">
+                            <i class="fas fa-sign-out-alt"></i> Sair da Conta
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Profile Details (Company Info) -->
+                <div class="profile-details">
+                    <h2 class="welcome-title">Empresa <span class="gradient-text">{{ empresa.nome_empresa }}</span>!</h2>
+                    <p class="company-description">{{ empresa.descricao_empresa or 'Nenhuma descrição fornecida ainda.' }}</p>
+
+                    <div class="dashboard-header">
+                        <h3><i class="fas fa-building"></i> Informações da Empresa</h3>
+                    </div>
+                    <div class="company-info-grid">
+                        <div class="info-card">
+                            <h4>Nome da Empresa</h4>
+                            <p>{{ empresa.nome_empresa }}</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>Nome do Responsável</h4>
+                            <p>{{ empresa.nome_responsavel }}</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>CNPJ</h4>
+                            <p>{{ empresa.cnpj }}</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>Email Corporativo</h4>
+                            <p>{{ empresa.email_corporativo }}</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>Telefone</h4>
+                            <p>{{ empresa.telefone_empresa }}</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>Membro Desde</h4>
+                            <p>{{ empresa.data_criacao.strftime('%d/%m/%Y') }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="container">
+            <h2 class="section-title" id="my-services-section">Meus Serviços/Projetos Publicados</h2>
+
+            {% if meus_servicos %}
+                <div class="service-list">
+                    {% for servico in meus_servicos %}
+                        <div class="service-card">
+                            <img src="{{ servico.imagem_url or url_for('static', filename='img/default_service_img.jpg') }}" alt="{{ servico.nome_servico }}" class="service-card-image">
+                            <div class="service-card-content">
+                                <span class="service-card-category">{{ servico.categoria.nome_categoria if servico.categoria else 'Sem Categoria' }}</span>
+                                <h3 class="service-card-title">{{ servico.nome_servico }}</h3>
+                                <p class="service-card-description">{{ servico.descricao_curta }}</p>
+                                <div class="service-card-meta">
+                                    <span><i class="fas fa-calendar-alt"></i> {{ servico.data_publicacao.strftime('%d/%m/%Y') }}</span>
+                                    <span><i class="fas fa-code"></i> {{ servico.tecnologias or 'N/A' }}</span>
+                                </div>
+                                <div class="service-card-actions">
+                                    <a href="{{ url_for('detalhes_servico', servico_id=servico.id) }}" class="cta-btn primary">
+                                        <i class="fas fa-eye"></i> Ver Detalhes
+                                    </a>
+                                    <a href="{{ url_for('editar_servico', servico_id=servico.id) }}" class="cta-btn secondary">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </a>
+                                    <form action="{{ url_for('deletar_servico', servico_id=servico.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este serviço/projeto?');">
+                                        <button type="submit" class="cta-btn danger">
+                                            <i class="fas fa-trash-alt"></i> Deletar
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-center empty-services-message">Você ainda não publicou nenhum serviço ou projeto.</p>
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('publicar_projeto') }}" class="cta-btn primary">
+                        <i class="fas fa-plus-circle"></i> Publicar Seu Primeiro Serviço/Projeto
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <!-- Services Modal -->
+    <div class="modal-overlay hidden" id="servicesModal">
+        <div class="modal wide-modal">
+            <div class="modal-header">
+                <h2>Meus Serviços Oferecidos</h2>
+                <button class="modal-close" onclick="closeModal('servicesModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div class="products-grid" id="userServicesGrid">
+                    <p style="text-align: center; color: #6b7280;">Nenhum serviço oferecido ainda.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="{{ url_for('publicar_projeto') }}" class="cta-btn primary">
+                        <i class="fas fa-plus"></i>
+                        Oferecer Novo Serviço
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-main">
+            <div class="container">
+                <div class="footer-grid">
+                    <!-- Company Info -->
+                    <div class="footer-section">
+                        <div class="footer-logo">
+                            <img src="{{ url_for('static', filename='img/federacao-SP-horizontal-B.png') }}" alt="Logo ASSESPRO-SP" class="footer-logo-assespro">
+                        </div>
+
+                        <p class="footer-description">
+                            A Federação ASSESPRO-SP conecta, fortalece e representa empresas de tecnologia no estado de São Paulo, promovendo inovação, networking e oportunidades.
+                        </p>
+                        <div class="footer-social">
+                            <a href="https://www.facebook.com/AssesproSP/" class="social-link"><i class="fab fa-facebook"></i></a>
+                            <a href="https://x.com/AssesproSP" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/assesprosp/" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com/company/assesprosp/" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="footer-section">
+                        <h3 class="footer-title">Links Rápidos</h3>
+                        <ul class="footer-links">
+                            <li><a href="{{ url_for('index') }}">Início</a></li>
+                            <li><a href="{{ url_for('servicos') }}">Serviços</a></li>
+                            <li><a href="{{ url_for('sobre') }}">Sobre</a></li>
+                            <li><a href="{{ url_for('contato') }}">Serviço Personalizado</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Technologies -->
+                    <div class="footer-section">
+                        <h3 class="footer-title">Tecnologias</h3>
+                        <ul class="footer-links">
+                            <li><a href="{{ url_for('servicos_por_categoria', category='IA & Machine Learning') }}">Inteligência Artificial</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='Desenvolvimento Web') }}">Desenvolvimento Web</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='Apps Mobile') }}">Apps Mobile</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='Cybersecurity') }}">Cybersecurity</a></li>
+                            <li><a href="{{ url_for('servicos_por_categoria', category='DevOps & Cloud') }}">DevOps & Cloud</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="footer-section">
+                        <h3 class="footer-title">Contato</h3>
+                        <div class="footer-contact">
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>+55 11 3064-0003</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>assespro@assespro-sp.org.br</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Brooklin Novo<br>São Paulo/SP</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="newsletter">
+                    <div class="newsletter-content">
+                        <h3 class="newsletter-title">Newsletter Tech</h3>
+                        <p class="newsletter-description">
+                            Receba as últimas novidades em tecnologia, IA e desenvolvimento diretamente no seu e-mail
+                        </p>
+                        <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+                            <input type="email" placeholder="dev@exemplo.com" class="newsletter-input" required>
+                            <button type="submit" class="newsletter-btn">
+                                <span>Assinar</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <div class="footer-copyright">
+                        © 2025 ASSESPRO-SP. Todos os direitos reservados.
+                    </div>
+                    <div class="footer-legal">
+                        <a href="#">Política de Privacidade</a>
+                        <a href="#">Termos de Uso</a>
+                        <a href="#">Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay hidden" id="loginModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Entrar no techHUB</h2>
+                <button class="modal-close" onclick="closeModal('loginModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="modal-form" id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Tipo de Conta</label>
+                    <div class="account-type-selector">
+                        <label class="account-type-option active">
+                            <input type="radio" name="accountType" value="individual" checked>
+                            <i class="fas fa-user"></i>
+                            <span>Pessoa Física</span>
+                        </label>
+                        <label class="account-type-option">
+                            <input type="radio" name="accountType" value="company">
+                            <i class="fas fa-building"></i>
+                            <span>Empresa</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="email" placeholder="seu@email.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Senha</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" placeholder="Sua senha" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox">
+                        <span>Lembrar-me</span>
+                    </label>
+                    <a href="#" class="forgot-password">Esqueceu a senha?</a>
+                </div>
+
+                <button type="submit" class="form-submit">Entrar</button>
+
+                <div class="form-switch">
+                    Não tem uma conta?
+                    <button type="button" onclick="switchToRegister()">Cadastre-se</button>
+                </div>
+
+                <div class="demo-credentials">
+                    <div><strong>Demo Pessoa Física:</strong> admin@techhub.com / admin123</div>
+                    <div><strong>Demo Empresa:</strong> empresa@techhub.com / admin123</div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal-overlay hidden" id="registerModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Criar Conta no techHUB</h2>
+                <button class="modal-close" onclick="closeModal('registerModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="modal-form" id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Tipo de Conta</label>
+                    <div class="account-type-selector">
+                        <label class="account-type-option active">
+                            <input type="radio" name="accountType" value="individual" checked>
+                            <i class="fas fa-user"></i>
+                            <span>Pessoa Física</span>
+                        </label>
+                        <label class="account-type-option">
+                            <input type="radio" name="accountType" value="company">
+                            <i class="fas fa-building"></i>
+                            <span>Empresa</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="name" placeholder="Seu nome completo" required>
+                    </div>
+                </div>
+
+                <div class="form-group company-field hidden">
+                    <label>Nome da Empresa</label>
+                    <input type="text" name="companyName" placeholder="Nome da sua empresa">
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="email" placeholder="seu@email.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Senha</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" placeholder="Mínimo 6 caracteres" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirmar Senha</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="confirmPassword" placeholder="Confirme sua senha" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" required>
+                        <span>Aceito os <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a></span>
+                    </label>
+                </div>
+
+                <button type="submit" class="form-submit">Criar Conta</button>
+
+                <div class="form-switch">
+                    Já tem uma conta?
+                    <button type="button" onclick="switchToLogin()">Entrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Edição de Perfil -->
+    <div class="modal-overlay hidden" id="editProfileModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Editar Perfil da Empresa</h2>
+                <button class="modal-close" onclick="closeModal('editProfileModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="modal-form" id="editProfileForm" method="POST" action="{{ url_for('edit_profile') }}" enctype="multipart/form-data">
+                    <div class="form-group text-center">
+                        <label for="profileImageUpload" class="profile-avatar-upload-label">
+                            <img id="currentProfileImage" 
+                                 src="{{ empresa.imagem_perfil_url or url_for('static', filename='img/user (2).png') }}?v={{ empresa.last_updated.timestamp() if empresa.last_updated else '' }}" 
+                                 alt="Foto de Perfil" 
+                                 class="profile-avatar-preview">
+                            <div class="overlay">
+                                <i class="fas fa-camera"></i>
+                                <span>Alterar Foto</span>
+                            </div>
+                        </label>
+                        <input type="file" id="profileImageUpload" name="imagem_perfil" accept="image/*" class="hidden">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nome_empresa">Nome da Empresa</label>
+                        <div class="input-group">
+                            <i class="fas fa-building"></i>
+                            <input type="text" id="nome_empresa" name="nome_empresa" value="{{ empresa.nome_empresa }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nome_responsavel">Nome do Responsável</label>
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="nome_responsavel" name="nome_responsavel" value="{{ empresa.nome_responsavel }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email_corporativo">Email Corporativo</label>
+                        <div class="input-group">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email_corporativo" name="email_corporativo" value="{{ empresa.email_corporativo }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefone_empresa">Telefone</label>
+                        <div class="input-group">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="telefone_empresa" name="telefone_empresa" value="{{ empresa.telefone_empresa }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descricao_empresa">Descrição da Empresa</label>
+                        <div class="input-group">
+                            <i class="fas fa-info-circle"></i>
+                            <textarea id="descricao_empresa" name="descricao_empresa" rows="4">{{ empresa.descricao_empresa or '' }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cnpj">CNPJ</label>
+                        <div class="input-group">
+                            <i class="fas fa-file-invoice"></i>
+                            <input type="text" id="cnpj" name="cnpj" value="{{ empresa.cnpj }}" readonly>
+                        </div>
+                    </div>
+
+                    <h3 class="modal-subtitle">Alterar Senha (Opcional)</h3>
+                    <div class="form-group">
+                        <label for="current_password">Senha Atual</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="current_password" name="current_password" placeholder="Sua senha atual">
+                            <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new_password">Nova Senha</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="new_password" name="new_password" placeholder="Nova senha (mín. 6 caracteres)">
+                            <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm_new_password">Confirmar Nova Senha</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="confirm_new_password" name="confirm_new_password" placeholder="Confirme a nova senha">
+                            <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="form-submit">Salvar Alterações</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script principal -->
+    <script src="{{ url_for('static', filename='js/commom.js') }}"></script>
+    <script>
+        // Funções de modal 
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // Funções de alternância de senha 
+        function togglePassword(button) {
+            const passwordInput = button.previousElementSibling;
+            const icon = button.querySelector('i');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Funções de menu mobile 
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileMenuIcon = document.getElementById('mobileMenuIcon');
+            mobileNav.classList.toggle('hidden');
+            mobileMenuIcon.classList.toggle('fa-bars');
+            mobileMenuIcon.classList.toggle('fa-times');
+        }
+
+        // Funções para lidar com o newsletter
+        function handleNewsletter(event) {
+            event.preventDefault();
+            alert('Assinatura da newsletter simulada!');
+        }
+
+        // Lógica principal ao carregar o DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileImageUpload = document.getElementById('profileImageUpload');
+            const currentProfileImage = document.getElementById('currentProfileImage'); 
+            const editProfileForm = document.getElementById('editProfileForm'); 
+
+            // Pré-visualização da imagem 
+            if (profileImageUpload && currentProfileImage) {
+                profileImageUpload.addEventListener('change', function(event) {
+                    if (event.target.files && event.target.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            currentProfileImage.src = e.target.result;
+                        };
+                        reader.readAsDataURL(event.target.files[0]);
+                    }
+                });
+            }
+
+            if (editProfileForm) {
+                editProfileForm.addEventListener('submit', async function(event) {
+                    event.preventDefault(); 
+
+                    const formData = new FormData(editProfileForm);
+
+                    try {
+                        const response = await fetch(editProfileForm.action, {
+                            method: editProfileForm.method,
+                            body: formData
+                        });
+
+                        const contentType = response.headers.get("content-type");
+                        if (contentType && contentType.indexOf("application/json") !== -1) {
+                            const result = await response.json();
+                            
+                            if (response.ok && result.success) {
+                                alert(result.message); 
+                                closeModal('editProfileModal');
+                                const mainProfileImage = document.getElementById('mainProfileImage'); 
+                                if (mainProfileImage && result.new_image_url) {
+                                    mainProfileImage.src = result.new_image_url + '?v=' + new Date().getTime();
+                                }
+                                window.location.reload(); 
+
+                            } else {
+                                alert(result.message || 'Erro desconhecido ao atualizar perfil.'); 
+                            }
+                        } else {
+                            alert('Perfil atualizado. A página será recarregada.');
+                            closeModal('editProfileModal');
+                            window.location.reload(); 
+                        }
+
+                    } catch (error) {
+                        console.error('Erro ao enviar formulário:', error);
+                        alert('Ocorreu um erro na comunicação com o servidor. Tente novamente.');
+                    }
+                });
+            }
+
+            // Funções para os modais de Login/Register
+            function switchToRegister() {
+                closeModal('loginModal');
+                openModal('registerModal');
+            }
+
+            function switchToLogin() {
+                closeModal('registerModal');
+                openModal('loginModal');
+            }
+
+            function closeLoginModal() {
+                closeModal('loginModal');
+            }
+
+            function closeRegisterModal() {
+                closeModal('registerModal');
+            }
+        });
+    </script>
+</body>
+</html>
+

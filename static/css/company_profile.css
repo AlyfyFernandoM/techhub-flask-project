@@ -1,0 +1,368 @@
+.company-profile-detail-section {
+    padding: 60px 0;
+    position: relative;
+    margin-top: 40px;
+    z-index: 3;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Coluna da info principal e coluna dos serviços */
+    gap: 40px;
+    align-items: flex-start;
+}
+
+@media (max-width: 992px) {
+    .profile-grid {
+        grid-template-columns: 1fr; /* Coluna única em telas menores */
+        gap: 30px;
+    }
+}
+
+/* --- Cartão de Cabeçalho do Perfil (Foto, Nome, Descrição, Contato) --- */
+.profile-header-card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 35px;
+    text-align: center;
+    position: sticky; /* Fixo na rolagem, se o conteúdo for longo */
+    top: 100px; /* Ajuste para o header */
+    margin-bottom: 20px; /* Espaço para quando não for sticky */
+}
+
+@media (max-width: 992px) {
+    .profile-header-card {
+        position: static; /* Remove sticky em telas pequenas */
+        top: auto;
+    }
+}
+
+.profile-pic-container {
+    width: 150px; /* Tamanho maior para a foto de perfil */
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 25px auto;
+    border: 5px solid #007bff; /* Borda primária */
+    box-shadow: 0 0 0 8px rgba(0, 123, 255, 0.15); /* Sombra maior para destaque */
+}
+
+.profile-pic {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-name {
+    font-size: 2.2em;
+    color: #0a192f;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.profile-description {
+    font-size: 1.05em;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profile-contact-info {
+    text-align: left;
+    margin-top: 25px;
+    padding-top: 25px;
+    border-top: 1px solid #eee;
+}
+
+.profile-contact-info .contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 1.05em;
+    color: #333;
+}
+
+.profile-contact-info .contact-item i {
+    margin-right: 15px;
+    font-size: 1.3em;
+    min-width: 25px; /* Para alinhar os textos */
+    text-align: center;
+}
+
+/* Cores dos Ícones de Contato */
+.profile-contact-info .contact-item .icon-blue { color: #007bff; }
+.profile-contact-info .contact-item .icon-green { color: #28a745; }
+.profile-contact-info .contact-item .icon-purple { color: #6f42c1; }
+
+
+/* --- Seção de Serviços Publicados --- */
+.profile-services {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 35px;
+}
+
+.services-title {
+    font-size: 2em;
+    color: #0a192f;
+    margin-bottom: 30px;
+    font-weight: 700;
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.services-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, #28a745, #1d7b38); /* Gradiente verde */
+    border-radius: 2px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.service-card {
+    background-color: #fcfcfc;
+    border: 1px solid #e0e6ed;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Empurra o link para baixo */
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.service-title {
+    font-size: 1.3em;
+    color: #007bff;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.service-description {
+    font-size: 0.95em;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    flex-grow: 1; /* Ocupa o espaço restante */
+}
+
+.service-link {
+    display: inline-flex;
+    align-items: center;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.service-link i {
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+}
+
+.service-link:hover {
+    color: #0056b3;
+}
+
+.service-link:hover i {
+    transform: translateX(5px);
+}
+
+.no-services {
+    text-align: center;
+    font-size: 1.1em;
+    color: #777;
+    grid-column: 1 / -1; /* Ocupa todas as colunas no grid */
+    padding: 20px;
+}
+
+
+/* --- Seção de Chamada para Ação (CTA) --- */
+.call-to-action-section {
+    background: linear-gradient(135deg, #007bff, #0056b3); /* Fundo gradiente */
+    color: #fff;
+    padding: 80px 20px;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.call-to-action-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.call-to-action-section p {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+    opacity: 0.9;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap; /* Quebra linha em telas pequenas */
+}
+
+.btn-primary-cta, .btn-secondary-cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 15px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+}
+
+.btn-primary-cta {
+    background-color: #fff;
+    color: #007bff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary-cta:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-secondary-cta {
+    border: 2px solid #fff;
+    color: #fff;
+    background-color: transparent;
+}
+
+.btn-secondary-cta:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary-cta i, .btn-secondary-cta i {
+    margin-right: 10px;
+}
+
+
+/* --- Responsividade Geral --- */
+@media (max-width: 768px) {
+    .page-hero.profile-hero h1 {
+        font-size: 2.5em;
+    }
+    .page-hero.profile-hero p {
+        font-size: 1em;
+    }
+
+    .company-profile-detail-section {
+        padding: 40px 0;
+        margin-top: -80px;
+    }
+
+    .profile-header-card, .profile-services {
+        padding: 25px;
+    }
+
+    .profile-pic-container {
+        width: 120px;
+        height: 120px;
+    }
+    .profile-name {
+        font-size: 1.8em;
+    }
+    .profile-description {
+        font-size: 0.95em;
+    }
+
+    .services-title {
+        font-size: 1.8em;
+        margin-bottom: 25px;
+    }
+    .services-grid {
+        gap: 20px;
+    }
+    .service-card {
+        padding: 20px;
+    }
+    .service-title {
+        font-size: 1.2em;
+    }
+    .service-description {
+        font-size: 0.9em;
+    }
+
+    .call-to-action-section {
+        padding: 60px 20px;
+    }
+    .call-to-action-section h2 {
+        font-size: 2em;
+    }
+    .call-to-action-section p {
+        font-size: 1em;
+    }
+    .cta-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .btn-primary-cta, .btn-secondary-cta {
+        width: 100%;
+        max-width: 300px; /* Limita a largura do botão */
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-hero.profile-hero h1 {
+        font-size: 2em;
+    }
+    .page-hero.profile-hero p {
+        font-size: 0.9em;
+    }
+
+    .profile-header-card, .profile-services {
+        padding: 20px;
+    }
+
+    .profile-pic-container {
+        width: 100px;
+        height: 100px;
+    }
+    .profile-name {
+        font-size: 1.6em;
+    }
+    .profile-contact-info .contact-item {
+        font-size: 0.95em;
+    }
+
+    .services-title {
+        font-size: 1.6em;
+    }
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+}

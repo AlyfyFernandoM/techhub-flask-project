@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9; }
+        h2 { color: #0056b3; }
+        ul { list-style: none; padding: 0; }
+        ul li { margin-bottom: 10px; }
+        .footer { margin-top: 20px; font-size: 0.9em; color: #666; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Nova Solicitação de Orçamento Personalizado</h2>
+        <p>Olá,</p>
+        <p>Você recebeu uma nova solicitação de orçamento para um projeto personalizado através do TechHUB.</p>
+        
+        <h3>Detalhes do Projeto:</h3>
+        <ul>
+            <li><strong>Título do Projeto:</strong> {{ project_title }}</li>
+            <li><strong>Descrição:</strong><br>{{ project_description }}</li>
+            <li><strong>Orçamento Estimado:</strong> {{ budget_range if budget_range else 'Não informado' }}</li>
+            <li><strong>Prazo Desejado:</strong> {{ deadline if deadline else 'Não informado' }}</li>
+        </ul>
+
+        <h3>Dados de Contato do Solicitante:</h3>
+        <ul>
+            <li><strong>Nome:</strong> {{ contact_name }}</li>
+            <li><strong>Email:</strong> {{ contact_email }}</li>
+            <li><strong>Telefone:</strong> {{ contact_phone }}</li>
+        </ul>
+
+        <p>Por favor, entre em contato com o solicitante para discutir os detalhes e enviar uma proposta.</p>
+        <div class="footer">
+            <p>Atenciosamente,<br>A Equipe TechHUB</p>
+        </div>
+    </div>
+</body>
+</html>
